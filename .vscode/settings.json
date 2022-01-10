@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "utils.h": "c",
+        "cstring": "c",
+        "variant": "c"
+    }
+}

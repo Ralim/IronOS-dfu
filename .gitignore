@@ -1,0 +1,6 @@
+*.map
+*.bin
+*.elf
+*.o
+flash_config.h
+build
