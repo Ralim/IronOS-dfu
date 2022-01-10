@@ -28,7 +28,7 @@ void gpio_set_mode(uint32_t gpiodev, uint16_t gpion, uint8_t mode);
 #define gpio_set_output(a, b) gpio_set_mode(a, b, 0x2)
 #define gpio_set_input(a, b) gpio_set_mode(a, b, 0x0)
 #define gpio_set_input_pp(a, b) gpio_set_mode(a, b, 0x8)
-
+#define gpio_set_output_od(a, b) gpio_set_mode(a, b, 0x01 | (0x01 << 2))
 #define gpio_clear(gpiodev, gpion) GPIO_BSRR(gpiodev) = (1 << (16 + gpion))
 #define gpio_set(gpiodev, gpion) GPIO_BSRR(gpiodev) = (1 << (gpion))
 

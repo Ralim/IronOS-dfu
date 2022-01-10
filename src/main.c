@@ -18,6 +18,8 @@
 
 #include "config.h"
 #include "flash.h"
+#include "i2c_bb.h"
+#include "oled.h"
 #include "usb.h"
 #include "usb_dfu.h"
 #include "watchdog.h"
@@ -104,11 +106,6 @@ int main(void) {
    * asked to reboot into DFU mode. This should make the CPU to
    * boot into DFU if the user app has been erased. */
 
-  const uint32_t start_addr = 0x08000000 + (FLASH_BOOTLDR_SIZE_KB * 1024);
-  const uint32_t *const base_addr = (uint32_t *)start_addr;
-
-  uint32_t imagesize = 0;
-
   int go_dfu =
 #ifdef ENABLE_PINRST_DFU_BOOT
       reset_due_to_pin() ||
@@ -116,36 +113,32 @@ int main(void) {
 #ifdef ENABLE_WATCHDOG
       reset_due_to_watchdog() ||
 #endif
-      imagesize > FLASH_BOOTLDR_PAYLOAD_SIZE_KB * 1024 / 4 || force_dfu_gpio();
+      force_dfu_gpio();
   RCC_CSR |= RCC_CSR_RMVF;
 
   if (!go_dfu &&
       (*(volatile uint32_t *)APP_ADDRESS & 0x2FFE0000) == 0x20000000) {
 
     // Do some simple XOR checking
-    uint32_t xorv = 0;
-    for (unsigned i = 0; i < imagesize; i++)
-      xorv ^= base_addr[i];
 
-    if (xorv == 0) { // Matches!
 #ifdef ENABLE_WATCHDOG
-      // Enable the watchdog
-      enable_iwdg(4096 * ENABLE_WATCHDOG / 26);
+    // Enable the watchdog
+    enable_iwdg(4096 * ENABLE_WATCHDOG / 26);
 #endif
-      // Set vector table base address.
-      volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
-      *_csb_vtor = APP_ADDRESS & 0xFFFF;
-      // Initialise master stack pointer.
-      __asm__ volatile("msr msp, %0" ::"g"(*(volatile uint32_t *)APP_ADDRESS));
-      // Jump to application.
-      (*(void (**)())(APP_ADDRESS + 4))();
-    }
+    // Set vector table base address.
+    volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
+    *_csb_vtor = APP_ADDRESS & 0xFFFF;
+    // Initialise master stack pointer.
+    __asm__ volatile("msr msp, %0" ::"g"(*(volatile uint32_t *)APP_ADDRESS));
+    // Jump to application.
+    (*(void (**)())(APP_ADDRESS + 4))();
   }
 
   clock_setup_in_hse_8mhz_out_72mhz();
 
   /* Disable USB peripheral as it overrides GPIO settings */
   *USB_CNTR_REG = USB_CNTR_PWDN;
+
   /*
    * Vile hack to reenumerate, physically _drag_ d+ low.
    * (need at least 2.5us to trigger usb disconnect)
@@ -153,9 +146,12 @@ int main(void) {
   rcc_gpio_enable(GPIOA);
   gpio_set_output(GPIOA, 12);
   gpio_clear(GPIOA, 12);
+  // We are using the I2C init and write to cover for the delay we need for the
+  // USB de-enumeration
+  i2c_init();
+  oled_init();
+  oled_draw_logo();
   for (unsigned int i = 0; i < 100000; i++) {
-    __asm__("nop");
-    __asm__("nop");
     __asm__("nop");
     __asm__("nop");
   }
