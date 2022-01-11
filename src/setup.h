@@ -1,15 +1,13 @@
 #ifndef SETUP_H_
 #define SETUP_H_
+#include "rcc.h"
 #include <stddef.h>
 #include <stdint.h>
-void clock_setup_in_hse_8mhz_out_72mhz(void);
 void _full_system_reset(void);
 int force_dfu_gpio(void);
 
 void gpio_set_mode(uint32_t gpiodev, uint16_t gpion, uint8_t mode);
 // GPIO/RCC stuff
-
-#define RCC_APB2ENR (*(volatile uint32_t *)0x40021018U)
 
 #define rcc_gpio_enable(gpion) RCC_APB2ENR |= (1 << (gpion + 2));
 

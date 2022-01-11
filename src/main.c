@@ -20,43 +20,13 @@
 #include "flash.h"
 #include "i2c_bb.h"
 #include "oled.h"
+#include "rcc.h"
 #include "usb.h"
 #include "usb_dfu.h"
 #include "watchdog.h"
 
 // Payload/app comes inmediately after Bootloader
 #define APP_ADDRESS (FLASH_BASE_ADDR + (FLASH_BOOTLDR_SIZE_KB)*1024)
-
-#define FLASH_ACR_LATENCY 7
-#define FLASH_ACR_LATENCY_2WS 0x02
-#define FLASH_ACR (*(volatile uint32_t *)0x40022000U)
-
-#define RCC_CFGR_HPRE_SYSCLK_NODIV 0x0
-#define RCC_CFGR_PPRE1_HCLK_DIV2 0x4
-#define RCC_CFGR_PPRE2_HCLK_NODIV 0x0
-#define RCC_CFGR_ADCPRE_PCLK2_DIV8 0x3
-#define RCC_CFGR_PLLMUL_PLL_CLK_MUL9 0x7
-#define RCC_CFGR_PLLSRC_HSE_CLK 0x1
-#define RCC_CFGR_PLLXTPRE_HSE_CLK 0x0
-#define RCC_CFGR_SW_SYSCLKSEL_PLLCLK 0x2
-#define RCC_CFGR_SW_SHIFT 0
-#define RCC_CFGR_SW (3 << RCC_CFGR_SW_SHIFT)
-
-#define RCC_CR_HSEON (1 << 16)
-#define RCC_CR_HSERDY (1 << 17)
-#define RCC_CR_PLLON (1 << 24)
-#define RCC_CR_PLLRDY (1 << 25)
-#define RCC_CR (*(volatile uint32_t *)0x40021000U)
-#define RCC_CFGR (*(volatile uint32_t *)0x40021004U)
-
-#define RCC_CSR (*(volatile uint32_t *)0x40021024U)
-#define RCC_CSR_LPWRRSTF (1 << 31)
-#define RCC_CSR_WWDGRSTF (1 << 30)
-#define RCC_CSR_IWDGRSTF (1 << 29)
-#define RCC_CSR_SFTRSTF (1 << 28)
-#define RCC_CSR_PORRSTF (1 << 27)
-#define RCC_CSR_PINRSTF (1 << 26)
-#define RCC_CSR_RMVF (1 << 24)
 
 #ifdef ENABLE_PINRST_DFU_BOOT
 static inline int reset_due_to_pin() {
@@ -65,41 +35,6 @@ static inline int reset_due_to_pin() {
                       RCC_CSR_SFTRSTF | RCC_CSR_PORRSTF));
 }
 #endif
-
-void clock_setup_in_hse_8mhz_out_72mhz(void) {
-  // No need to use HSI or HSE while setting up the PLL, just use the RC osc.
-
-  /* Enable external high-speed oscillator 8MHz. */
-  RCC_CR |= RCC_CR_HSEON;
-  while (!(RCC_CR & RCC_CR_HSERDY))
-    ;
-
-  /*
-   * Set prescalers for AHB, ADC, ABP1, ABP2.
-   * Do this before touching the PLL (TODO: why?).
-   */
-  uint32_t reg32 = RCC_CFGR & 0xFFC0000F;
-  reg32 |= (RCC_CFGR_HPRE_SYSCLK_NODIV << 4) | (RCC_CFGR_PPRE1_HCLK_DIV2 << 8) |
-           (RCC_CFGR_PPRE2_HCLK_NODIV << 11) |
-           (RCC_CFGR_ADCPRE_PCLK2_DIV8 << 14) |
-           (RCC_CFGR_PLLMUL_PLL_CLK_MUL9 << 18) |
-           (RCC_CFGR_PLLSRC_HSE_CLK << 16) | (RCC_CFGR_PLLXTPRE_HSE_CLK << 17);
-  RCC_CFGR = reg32;
-
-  // 0WS from 0-24MHz
-  // 1WS from 24-48MHz
-  // 2WS from 48-72MHz
-  FLASH_ACR = (FLASH_ACR & ~FLASH_ACR_LATENCY) | FLASH_ACR_LATENCY_2WS;
-
-  /* Enable PLL oscillator and wait for it to stabilize. */
-  RCC_CR |= RCC_CR_PLLON;
-  while (!(RCC_CR & RCC_CR_PLLRDY))
-    ;
-
-  // Select PLL as SYSCLK source.
-  RCC_CFGR = (RCC_CFGR & ~RCC_CFGR_SW) |
-             (RCC_CFGR_SW_SYSCLKSEL_PLLCLK << RCC_CFGR_SW_SHIFT);
-}
 
 int main(void) {
   /* Boot the application if it seems valid and we haven't been
@@ -115,11 +50,8 @@ int main(void) {
 #endif
       force_dfu_gpio();
   RCC_CSR |= RCC_CSR_RMVF;
-
-  if (!go_dfu &&
-      (*(volatile uint32_t *)APP_ADDRESS & 0x2FFE0000) == 0x20000000) {
-
-    // Do some simple XOR checking
+  // If not requested into DFU via gpio + flash is programmed
+  if (!go_dfu && (*(volatile uint32_t *)APP_ADDRESS) != 0xFFFFFFFF) {
 
 #ifdef ENABLE_WATCHDOG
     // Enable the watchdog
@@ -134,7 +66,7 @@ int main(void) {
     (*(void (**)())(APP_ADDRESS + 4))();
   }
 
-  clock_setup_in_hse_8mhz_out_72mhz();
+  rcc_clock_setup_in_hsi_out_48mhz();
 
   /* Disable USB peripheral as it overrides GPIO settings */
   *USB_CNTR_REG = USB_CNTR_PWDN;
