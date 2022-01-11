@@ -1,0 +1,28 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    container:
+      image: alpine:3.15
+
+    steps:
+      - name: Install dependencies (apk)
+        run: apk add --no-cache gcc-arm-none-eabi newlib-arm-none-eabi findutils make git
+
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: build ${{ matrix.model }}
+        run: make all
+
+      - name: Archive ${{ matrix.model }} artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: |
+            build/*.hex
+            build/*.bin
+          if-no-files-found: error
