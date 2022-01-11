@@ -266,6 +266,6 @@ void oled_init(void) {
   // init should be done now :)
 }
 void oled_draw_logo(void) {
-
+  // We pre-bake the buffer and commands
   i2c_write_bulk(DEVICEADDR_OLED, sizeof(oled_framebuffer), oled_framebuffer);
 }
