@@ -1,9 +1,9 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 #define FLASH_BASE_ADDR 0x08000000
-#define FLASH_SIZE_KB (128)
-#define FLASH_BOOTLDR_SIZE_KB (4)
-#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB (FLASH_SIZE_KB - FLASH_BOOTLDR_SIZE_KB)
+#define FLASH_SIZE_KB 128
+#define FLASH_BOOTLDR_SIZE_KB 16
+#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
 
 // #define ENABLE_WATCHDOG 20 // If watchdog should be started before the app
 // starts
