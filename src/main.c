@@ -24,6 +24,7 @@
 #include "rcc.h"
 #include "usb.h"
 #include "usb_dfu.h"
+#include "watchdog.h"
 
 // Payload/app comes inmediately after Bootloader
 #define APP_ADDRESS (FLASH_BASE_ADDR + (FLASH_BOOTLDR_SIZE_KB)*1024)
@@ -41,10 +42,18 @@ int main(void) {
   volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
   *_csb_vtor                   = FLASH_BASE | VECTOR_TABLE_OFFSET;
 
+#ifdef ENABLE_WATCHDOG
+  // Enable the watchdog
+  enable_iwdg(4096 * ENABLE_WATCHDOG / 26);
+#endif
+
   int go_dfu = force_dfu_gpio();
   RCC_CSR |= RCC_CSR_RMVF;
   // If not requested into DFU via gpio + flash is programmed
   if (!go_dfu && (*(volatile uint32_t *)APP_ADDRESS) != 0xFFFFFFFF) {
+#ifdef ENABLE_WATCHDOG
+    iwdg_reset();
+#endif
 
     // Set vector table base address.
 
@@ -73,6 +82,9 @@ int main(void) {
   oled_init();
   display_splash();
   for (unsigned int x10ms = 0; x10ms < 150; x10ms++) {
+#ifdef ENABLE_WATCHDOG
+    iwdg_reset();
+#endif
     for (unsigned int i = 0; i < 100000; i++) {
       __asm__("nop");
       __asm__("nop");
@@ -84,6 +96,9 @@ int main(void) {
   display_show_version();
   while (1) {
     // Poll based approach
+#ifdef ENABLE_WATCHDOG
+    iwdg_reset();
+#endif
     do_usb_poll();
     if (usbdfu_state == STATE_DFU_MANIFEST) {
       // USB device must detach, we just reset...

@@ -27,12 +27,25 @@ char serial_no[25];
 const char *const _usb_strings[5] = {"RalimTek <3 libopencm3",       // iManufacturer
                                      "DFU bootloader [" VERSION "]", // iProduct
                                      serial_no,                      // iSerialNumber
-                                     // Interface desc string
-                                     /* This string is used by ST Microelectronics' DfuSe utility. */
-                                     /* Change check_do_erase() accordingly */
+// Interface desc string
+/* This string is used by ST Microelectronics' DfuSe utility. */
+/* Change check_do_erase() accordingly */
+#ifdef BOOTLOADER_MODE
                                      "@Internal Flash /0x08000000/" STR(FLASH_BOOTLDR_SIZE_KB) "*001Ka," STR(FLASH_BOOTLDR_PAYLOAD_SIZE_KB) "*001Kg",
+#else
+#ifdef RUNTIME_MODE
+                                     "@Internal Flash /0x08000000/" STR(FLASH_BOOTLDR_SIZE_KB) "*001Kg",
+
+#else
+#error "RUNTIME MODE OR BOOTLOADER MODE MUST BE DEFINED"
+#endif
+#endif
                                      // Config desc string
-                                     "Bootloader config: "};
+                                     "Bootloader config: "
+#ifdef ENABLE_WATCHDOG
+                                     "WtDg[" STR(ENABLE_WATCHDOG) "s] "
+#endif
+};
 
 static const char hcharset[16] = "0123456789abcdef";
 void              get_dev_unique_id(char *s) {
