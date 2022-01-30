@@ -2,6 +2,7 @@
     "files.associations": {
         "utils.h": "c",
         "cstring": "c",
-        "variant": "c"
+        "variant": "c",
+        "string_view": "c"
     }
 }

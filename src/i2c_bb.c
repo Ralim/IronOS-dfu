@@ -2,29 +2,29 @@
 #include "setup.h"
 // A minimal i2c bit-banging code implementation
 // So that we can push info to the lcd
-#define SCL_Pin 6
+#define SCL_Pin       6
 #define SCL_GPIO_Port GPIOB
-#define SDA_Pin 7
+#define SDA_Pin       7
 #define SDA_GPIO_Port GPIOB
 
 #define SOFT_SCL_HIGH() gpio_set(SCL_GPIO_Port, SCL_Pin)
-#define SOFT_SCL_LOW() gpio_clear(SCL_GPIO_Port, SCL_Pin)
+#define SOFT_SCL_LOW()  gpio_clear(SCL_GPIO_Port, SCL_Pin)
 #define SOFT_SDA_HIGH() gpio_set(SDA_GPIO_Port, SDA_Pin)
-#define SOFT_SDA_LOW() gpio_clear(SDA_GPIO_Port, SDA_Pin)
+#define SOFT_SDA_LOW()  gpio_clear(SDA_GPIO_Port, SDA_Pin)
 
 #define SOFT_SDA_READ() (gpio_read(SDA_GPIO_Port, SDA_Pin) ? 1 : 0)
 #define SOFT_SCL_READ() (gpio_read(SCL_GPIO_Port, SCL_Pin) ? 1 : 0)
-#define SOFT_I2C_DELAY()                                                       \
-  {                                                                            \
-    for (int xx = 0; xx < 15; xx++) {                                          \
-      asm("nop");                                                              \
-    }                                                                          \
+#define SOFT_I2C_DELAY()              \
+  {                                   \
+    for (int xx = 0; xx < 40; xx++) { \
+      asm("nop");                     \
+    }                                 \
   }
 
-void i2c_start(void);
-void i2c_stop(void);
+void    i2c_start(void);
+void    i2c_stop(void);
 uint8_t i2c_read(uint8_t ack);
-void i2c_write_bit(uint8_t val);
+void    i2c_write_bit(uint8_t val);
 uint8_t i2c_send(uint8_t value);
 uint8_t i2c_read_bit(void);
 
@@ -116,8 +116,7 @@ uint8_t i2c_read_bit(void) {
   return b;
 }
 
-void i2c_write_reg(const uint8_t address, const uint8_t reg,
-                   const uint8_t value) {
+void i2c_write_reg(const uint8_t address, const uint8_t reg, const uint8_t value) {
   // Write out to device, so send start,device addr, reg, value, stop
   i2c_start();
   i2c_send(address);
@@ -126,8 +125,7 @@ void i2c_write_reg(const uint8_t address, const uint8_t reg,
   i2c_stop();
 }
 
-void i2c_write_bulk(const uint8_t address, const uint16_t length,
-                    const uint8_t *data) {
+void i2c_write_bulk(const uint8_t address, const uint16_t length, const uint8_t *data) {
   i2c_start();
   i2c_send(address);
   for (int i = 0; i < length; i++) {

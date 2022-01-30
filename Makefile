@@ -15,7 +15,8 @@ DEF = -DSTM32F030x8 -DVERSION=\"$(GIT_VERSION)\"
 
 # OpenOCD setup
 
-JLINK_DEVICE = STM32f103C8
+# JLINK_DEVICE = STM32f103C8
+JLINK_DEVICE = GD32f103C8
 
 include cm-makefile/config.mk
 include cm-makefile/rules.mk
