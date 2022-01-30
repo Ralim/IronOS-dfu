@@ -1,5 +1,14 @@
 GIT_VERSION := $(shell git describe --abbrev=8 --dirty --always --tags)
 
+build_type ?= runtime
+
+ifeq ($(build_type), runtime)
+    VECTOR_TABLE_OFFSET := 0x4000
+	SRC_LD = src/stm32f103_runtime.ld
+else 
+VECTOR_TABLE_OFFSET := 0x0000
+SRC_LD = src/stm32f103.ld
+endif
 
 
 # Project name
@@ -9,9 +18,8 @@ BIN = stm32-dfu
 INC = -I src
 
 SRC_C += $(wildcard src/*.c)
-SRC_LD = src/stm32f103.ld
 # Defines required by included libraries
-DEF = -DSTM32F030x8 -DVERSION=\"$(GIT_VERSION)\"
+DEF = -DSTM32F030x8 -DVERSION=\"$(GIT_VERSION)\" -DVECTOR_TABLE_OFFSET=${VECTOR_TABLE_OFFSET}
 
 # OpenOCD setup
 
@@ -26,7 +34,8 @@ WARNFLAGS += -Wno-undef -Wno-conversion  -Wall -pedantic -Werror
 
 OPTFLAGS =  -Os -flto -finline-small-functions \
 -findirect-inlining -fdiagnostics-color \
--ffunction-sections -fdata-sections -Wno-overlength-strings -ggdb -nostartfiles 
+-ffunction-sections -fdata-sections -Wno-overlength-strings -ggdb -nostartfiles
+
 
 ARCHFLAGS = -mcpu=cortex-m3 -mthumb -DSTM32F1 -std=c11 
 DBGFLAGS = 
