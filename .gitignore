@@ -4,3 +4,4 @@
 *.o
 flash_config.h
 build
+compile_commands.json
