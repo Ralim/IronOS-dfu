@@ -1,5 +1,6 @@
 #include "oled.h"
 
+#include "font.h"
 uint8_t oled_init_array[] = {
     // Every line is a pair of init terms
     0x80, 0xAE, /*Display off*/
@@ -27,234 +28,7 @@ uint8_t oled_init_array[] = {
     0x80, 0x20, /*Memory Mode*/
     0x80, 0x00, /*Wrap memory*/
     0x80, 0xAF, /*Display on*/
-};
 
-const uint8_t oled_framebuffer[] = {
-    // Set display ON:
-    0x80,
-    0xAF, // cmd
-
-    // Set column address:
-    //  A[6:0] - Column start address = 0x20
-    //  B[6:0] - Column end address = 0x7F
-    0x80,
-    0x21, // cmd
-    0x80,
-    0x20, // A
-    0x80,
-    0x7F, // B
-
-    // Set COM output scan direction (normal mode, COM0 to COM[N-1])
-    0x80,
-    0xC0,
-
-    // Set page address:
-    //  A[2:0] - Page start address = 0
-    //  B[2:0] - Page end address = 1
-    0x80,
-    0x22, // cmd
-    0x80,
-    0x00, // A
-    0x80,
-    0x01, // B
-
-    // Start of data
-    0x40,
-
-    // DATAATTA
-    // width = 84
-    // height = 16
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0xe0,
-    0x18,
-    0x04,
-    0x02,
-    0x02,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x81,
-    0xbd,
-    0x81,
-    0x01,
-    0x01,
-    0xfd,
-    0x01,
-    0x01,
-    0x71,
-    0x55,
-    0x71,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x02,
-    0x02,
-    0x04,
-    0x18,
-    0xe0,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0xe0,
-    0x18,
-    0x04,
-    0x02,
-    0x02,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x01,
-    0x19,
-    0x25,
-    0xc1,
-    0x01,
-    0x19,
-    0x25,
-    0xc1,
-    0x01,
-    0x31,
-    0x49,
-    0x81,
-    0x01,
-    0x02,
-    0x02,
-    0x04,
-    0x18,
-    0xe0,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    //
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x07,
-    0x18,
-    0x20,
-    0x40,
-    0x40,
-    0x80,
-    0x80,
-    0x80,
-    0x80,
-    0x80,
-    0x80,
-    0x80,
-    0x83,
-    0xba,
-    0x83,
-    0x80,
-    0x8e,
-    0xaa,
-    0x8e,
-    0x80,
-    0x80,
-    0xbf,
-    0x80,
-    0x80,
-    0x80,
-    0x80,
-    0x80,
-    0x80,
-    0x80,
-    0x80,
-    0x40,
-    0x40,
-    0x20,
-    0x18,
-    0x07,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x07,
-    0x18,
-    0x22,
-    0x4a,
-    0x46,
-    0x8a,
-    0xa6,
-    0x8a,
-    0xa6,
-    0x8a,
-    0xa6,
-    0x8a,
-    0xa6,
-    0x8e,
-    0xa6,
-    0x8e,
-    0xa6,
-    0x8e,
-    0xa6,
-    0x8e,
-    0xbe,
-    0x80,
-    0xae,
-    0x94,
-    0x8c,
-    0x94,
-    0x88,
-    0x8a,
-    0x89,
-    0x80,
-    0x40,
-    0x40,
-    0x20,
-    0x18,
-    0x07,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
-    0x00,
 };
 
 void oled_init(void) {
@@ -265,7 +39,119 @@ void oled_init(void) {
   }
   // init should be done now :)
 }
-void oled_draw_logo(void) {
-  // We pre-bake the buffer and commands
-  i2c_write_bulk(DEVICEADDR_OLED, sizeof(oled_framebuffer), oled_framebuffer);
+nt8_t displayOffset = 32;
+uint8_t displayBuffer[2 * 96];
+uint8_t OLEDOnOffState = 0; // Used to lock out so we dont send it too often
+
+/*
+ Description: write a command to the Oled display
+ Input: number of bytes to write, array to write
+ Output:
+ */
+void Data_Command(uint8_t length, const uint8_t *data) {
+  int i;
+  uint8_t tx_data[129];
+  // here are are inserting the data write command at the beginning
+  tx_data[0] = 0x40;
+  length++;
+  for (i = 1; i <= length; i++) // Loop through the array of data
+  {
+    if (data == 0)
+      tx_data[i] = 0;
+    else
+      tx_data[i] = *data++;
+  }
+  i2c_write_bulk(DEVICEADDR_OLED, length, tx_data);
+}
+// This causes us to write out the buffered screen data to the display
+void OLED_Sync() {
+  Set_ShowPos(0, 0);
+  Data_Command(96, displayBuffer);
+  Set_ShowPos(0, 1);
+  Data_Command(96, displayBuffer + 96);
+}
+/*******************************************************************************
+ Function:Set_ShowPos
+ Description:Set the current position in GRAM that we are drawing to
+ Input:x,y co-ordinates
+ *******************************************************************************/
+void Set_ShowPos(uint8_t x, uint8_t y) {
+  uint8_t pos_param[8] = {0x80, 0xB0, 0x80, 0x21, 0x80, 0x00, 0x80, 0x7F};
+  // page 0, start add = x(below) through to 0x7F (aka 127)
+  pos_param[5] =
+      x + displayOffset; /*Display offset ==0 for Lefty, == 32 for righty*/
+  pos_param[1] += y;
+  i2c_write_bulk(DEVICEADDR_OLED, 8, pos_param);
+}
+
+/*******************************************************************************
+ Function:Oled_DrawArea
+ Description:
+ Inputs:(x,y) start point, (width,height) of enclosing rect, pointer to data
+ Output: pointer to the last byte written out
+ *******************************************************************************/
+void Oled_DrawArea(uint8_t x, uint8_t y, uint8_t wide, uint8_t height,
+                   const uint8_t *ptr) {
+  // We want to blat the given data over the buffer
+  // X is the left right position (index's through the display buffer)
+  // Y is the height value (affects the bits)
+  // Y is either 0 or 8, we dont do smaller bit blatting
+  uint8_t lines = height / 8;
+  // We draw the 1 or two stripes seperately
+  for (uint8_t i = 0; i < (wide * lines); i++) {
+    uint8_t xp = x + (i % wide);
+    uint8_t yoffset = i < wide ? 0 : 96;
+    if (y == 8)
+      yoffset = 96;
+    displayBuffer[xp + yoffset] = ptr[i];
+  }
+}
+
+/*******************************************************************************
+ Function:Clear_Screen
+ Description:Clear the entire screen to off (black)
+ *******************************************************************************/
+void Clear_Screen(void) { memset(displayBuffer, 0, 96 * 2); }
+/*
+ * Draws a string onto the screen starting at the left
+ */
+void OLED_DrawString(const char *string, const uint8_t length) {
+  for (uint8_t i = 0; i < length; i++) {
+    OLED_DrawChar(string[i], i);
+  }
+}
+/*
+ * Draw a char onscreen at letter index x
+ */
+void OLED_DrawChar(char c, uint8_t x) {
+  if (x > 7)
+    return; // clipping
+
+  x *= FONT_WIDTH; // convert to a x coordinate
+  uint8_t *ptr;
+  uint16_t offset = 0;
+  if (c < 0x80) {
+    ptr = (uint8_t *)FONT;
+    offset = c - ' ';
+  } else if (c >= 0xA0) {
+    ptr = (uint8_t *)FontLatin2;
+    offset = c - 0xA0; // this table starts at 0xA0
+  } else
+    return; // not in font
+
+  offset *= (2 * FONT_WIDTH);
+  ptr += offset;
+
+  Oled_DrawArea(x, 0, FONT_WIDTH, 16, (uint8_t *)ptr);
+}
+
+/*
+ * Draw a 4 digit number to the display at letter slot x
+ */
+void OLED_DrawFourNumber(uint16_t in, uint8_t x) {
+
+  OLED_DrawChar(48 + (in / 1000) % 10, x);
+  OLED_DrawChar(48 + (in / 100) % 10, x + 1);
+  OLED_DrawChar(48 + (in / 10) % 10, x + 2);
+  OLED_DrawChar(48 + (in % 10), x + 3);
 }

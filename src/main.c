@@ -45,18 +45,11 @@ int main(void) {
 #ifdef ENABLE_PINRST_DFU_BOOT
       reset_due_to_pin() ||
 #endif
-#ifdef ENABLE_WATCHDOG
-      reset_due_to_watchdog() ||
-#endif
       force_dfu_gpio();
   RCC_CSR |= RCC_CSR_RMVF;
   // If not requested into DFU via gpio + flash is programmed
   if (!go_dfu && (*(volatile uint32_t *)APP_ADDRESS) != 0xFFFFFFFF) {
 
-#ifdef ENABLE_WATCHDOG
-    // Enable the watchdog
-    enable_iwdg(4096 * ENABLE_WATCHDOG / 26);
-#endif
     // Set vector table base address.
     volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
     *_csb_vtor = APP_ADDRESS & 0xFFFF;

@@ -36,11 +36,7 @@ const char *const _usb_strings[5] = {
     "@Internal Flash /0x08000000/" STR(FLASH_BOOTLDR_SIZE_KB) "*001Ka," STR(
         FLASH_BOOTLDR_PAYLOAD_SIZE_KB) "*001Kg",
     // Config desc string
-    "Bootloader config: "
-#ifdef ENABLE_WATCHDOG
-    "WtDg[" STR(ENABLE_WATCHDOG) "s] "
-#endif
-};
+    "Bootloader config: "};
 
 static const char hcharset[16] = "0123456789abcdef";
 void get_dev_unique_id(char *s) {
