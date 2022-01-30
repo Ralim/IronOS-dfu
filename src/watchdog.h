@@ -20,6 +20,7 @@
 #define LSI_ON         (1 << 0)
 
 // Enables the watchdog using a period of 1/(40Khz / 256 / 4095) = 26.2s
+#ifdef BOOTLOADER_MODE
 static void enable_iwdg(uint16_t rldval) {
   // First start LSI oscillator
   RCC_CSR |= LSI_ON;
@@ -40,7 +41,7 @@ static void enable_iwdg(uint16_t rldval) {
   // Starts the watchdog
   IWDG_KR = IWDG_KR_START;
 }
-
+#endif
 static void iwdg_reset(void) { IWDG_KR = IWDG_KR_RESET; }
 #endif
 #endif // WATCHDOG_H_

@@ -42,9 +42,9 @@ int main(void) {
   volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
   *_csb_vtor                   = FLASH_BASE | VECTOR_TABLE_OFFSET;
 
-#ifdef ENABLE_WATCHDOG
-  // Enable the watchdog
-  enable_iwdg(4096 * ENABLE_WATCHDOG / 26);
+#ifdef BOOTLOADER_MODE
+  // Enable the watchdog, only in bootloader mode as it doesnt work in runtime mode as its already started
+  enable_iwdg((4096 * ENABLE_WATCHDOG) / 26);
 #endif
 
   int go_dfu = force_dfu_gpio();
