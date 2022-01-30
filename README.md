@@ -29,3 +29,4 @@ The bootloader version is intended to be used as your device bootloader. It will
 
 In runtime mode, it is expected to be running where your main firmware _would be_.
 In this mode it can be used to read/write the actual bootloader on the device.
+This is not a completely risk free process since if you wipe your bootloader and then power cycle you cant boot. But it does mean it can keep running _whileever_ you have power so you can fix it.
