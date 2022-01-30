@@ -22,7 +22,7 @@ int force_dfu_gpio(void) {
   return val == 0;
 }
 #else
-int force_dfu_gpio(void) { return 0; }
+int force_dfu_gpio(void) { return 1; }
 #endif
 
 void gpio_set_mode(uint32_t gpiodev, uint16_t gpion, uint8_t mode) {
