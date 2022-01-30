@@ -6,8 +6,8 @@ ifeq ($(build_type), runtime)
     VECTOR_TABLE_OFFSET := 0x4000
 	SRC_LD = src/stm32f103_runtime.ld
 else 
-VECTOR_TABLE_OFFSET := 0x0000
-SRC_LD = src/stm32f103.ld
+	VECTOR_TABLE_OFFSET := 0x0000
+	SRC_LD = src/stm32f103.ld
 endif
 
 
