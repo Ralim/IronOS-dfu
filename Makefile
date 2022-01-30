@@ -5,14 +5,15 @@ build_type ?= runtime
 ifeq ($(build_type), runtime)
     VECTOR_TABLE_OFFSET := 0x4000
 	SRC_LD = src/stm32f103_runtime.ld
+
+BIN = runtime
 else 
 	VECTOR_TABLE_OFFSET := 0x0000
 	SRC_LD = src/stm32f103.ld
+BIN = bootloader
+
 endif
 
-
-# Project name
-BIN = stm32-dfu
 
 
 INC = -I src

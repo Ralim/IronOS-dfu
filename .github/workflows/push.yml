@@ -16,10 +16,13 @@ jobs:
         with:
           submodules: true
 
-      - name: build ${{ matrix.model }}
-        run: make all
+      - name: build runtime
+        run: make all build_type=runtime
 
-      - name: Archive ${{ matrix.model }} artifacts
+      - name: build bootloader
+        run: make all build_type=bootloader
+
+      - name: Archive  artifacts
         uses: actions/upload-artifact@v2
         with:
           path: |
