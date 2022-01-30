@@ -24,4 +24,24 @@ Run this command with the iron connected via USB, and it will create a file call
 Due to this being copright Miniware, the bootloader files will _NOT_ be hosted in this repo.
 However, we will publish known checksums of the backups so you can check if yours is a known one or not.
 
+If it works, our output should look like this:
+
+```
+❯ dfu-util -d 28e9:0189 -U backup2.bin  -s 0x08000000:0x4000
+dfu-util 0.11
+
+Opening DFU capable USB device...
+Device ID 28e9:0189
+Device DFU version 011a
+Claiming USB DFU Interface...
+Setting Alternate Interface #0 ...
+Determining device status...
+DFU state(2) = dfuIDLE, status(0) = No error condition is present
+DFU mode device DFU version 011a
+Device returned transfer size 1024
+DfuSe interface name: "Internal Flash "
+Upload	[=========================] 100%        16384 bytes
+Upload done.
+```
+
 If you have lost your backup, and you need one; if you contact @ralim really nicely, and can prove your iron is legitament and not a clone, they _may_ help you out.
