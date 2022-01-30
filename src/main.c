@@ -37,18 +37,18 @@ int main(void) {
    * asked to reboot into DFU mode. This should make the CPU to
    * boot into DFU if the user app has been erased. */
 
-  int go_dfu =
-#ifdef ENABLE_PINRST_DFU_BOOT
-      reset_due_to_pin() ||
-#endif
-      force_dfu_gpio();
+  // Setup vector table to use out offset whatever it is
+  volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
+  *_csb_vtor                   = FLASH_BASE | VECTOR_TABLE_OFFSET;
+
+  int go_dfu = force_dfu_gpio();
   RCC_CSR |= RCC_CSR_RMVF;
   // If not requested into DFU via gpio + flash is programmed
   if (!go_dfu && (*(volatile uint32_t *)APP_ADDRESS) != 0xFFFFFFFF) {
 
     // Set vector table base address.
-    volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
-    *_csb_vtor                   = APP_ADDRESS & 0xFFFF;
+
+    *_csb_vtor = APP_ADDRESS & 0xFFFF;
     // Initialise master stack pointer.
     __asm__ volatile("msr msp, %0" ::"g"(*(volatile uint32_t *)APP_ADDRESS));
     // Jump to application.

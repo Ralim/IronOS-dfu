@@ -14,7 +14,7 @@ void _full_system_reset() {
 int force_dfu_gpio(void) {
   rcc_gpio_enable(GPIO_DFU_BOOT_PORT);
   gpio_set_input_pp(GPIO_DFU_BOOT_PORT, GPIO_DFU_BOOT_PIN);
-  gpio_clear(GPIO_DFU_BOOT_PORT, GPIO_DFU_BOOT_PIN);
+  gpio_set(GPIO_DFU_BOOT_PORT, GPIO_DFU_BOOT_PIN);
   for (unsigned int i = 0; i < 512; i++)
     __asm__("nop");
   uint16_t val = gpio_read(GPIO_DFU_BOOT_PORT, GPIO_DFU_BOOT_PIN);
