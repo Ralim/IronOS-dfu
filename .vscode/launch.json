@@ -12,7 +12,7 @@
             "miDebuggerServerAddress": "127.0.0.1:2331",
             "miDebuggerPath": "/usr/bin/arm-none-eabi-gdb",
             "cwd": "${workspaceRoot}",
-            "externalConsole": true,
+            "externalConsole": false,
             "linux": {
                 "MIMode": "gdb"
             }
