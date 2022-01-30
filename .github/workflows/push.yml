@@ -20,7 +20,7 @@ jobs:
         run: make all build_type=runtime
 
       - name: build bootloader
-        run: make all build_type=bootloader
+        run: rm -rf build/*.o build/*.d && make all build_type=bootloader
 
       - name: Archive  artifacts
         uses: actions/upload-artifact@v2
