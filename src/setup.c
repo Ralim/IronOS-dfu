@@ -4,7 +4,7 @@
 void _full_system_reset() {
   // Reset and wait for it!
   volatile uint32_t *_scb_aircr = (uint32_t *)0xE000ED0CU;
-  *_scb_aircr = 0x05FA0000 | 0x4;
+  *_scb_aircr                   = 0x05FA0000 | 0x4;
   while (1)
     ;
   __builtin_unreachable();
@@ -19,17 +19,15 @@ int force_dfu_gpio(void) {
     __asm__("nop");
   uint16_t val = gpio_read(GPIO_DFU_BOOT_PORT, GPIO_DFU_BOOT_PIN);
   gpio_set_input(GPIO_DFU_BOOT_PORT, GPIO_DFU_BOOT_PIN);
-  return val != 0;
+  return val == 0;
 }
 #else
-#define force_dfu_gpio() (0)
+int force_dfu_gpio(void) { return 0; }
 #endif
 
 void gpio_set_mode(uint32_t gpiodev, uint16_t gpion, uint8_t mode) {
   if (gpion < 8)
-    GPIO_CRL(gpiodev) = (GPIO_CRL(gpiodev) & ~(0xf << ((gpion) << 2))) |
-                        (mode << ((gpion) << 2));
+    GPIO_CRL(gpiodev) = (GPIO_CRL(gpiodev) & ~(0xf << ((gpion) << 2))) | (mode << ((gpion) << 2));
   else
-    GPIO_CRH(gpiodev) = (GPIO_CRL(gpiodev) & ~(0xf << ((gpion - 8) << 2))) |
-                        (mode << ((gpion - 8) << 2));
+    GPIO_CRH(gpiodev) = (GPIO_CRL(gpiodev) & ~(0xf << ((gpion - 8) << 2))) | (mode << ((gpion - 8) << 2));
 }
