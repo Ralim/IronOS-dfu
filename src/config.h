@@ -8,8 +8,8 @@
 // #define ENABLE_WATCHDOG 20 // If watchdog should be started before the app
 // starts
 #define ENABLE_GPIO_DFU_BOOT
-#define GPIO_DFU_BOOT_PORT GPIOB
-#define GPIO_DFU_BOOT_PIN  2
+#define GPIO_DFU_BOOT_PORT GPIOA
+#define GPIO_DFU_BOOT_PIN  6
 
 #ifdef RUNTIME_MODE
 #define VECTOR_OFFSET (FLASH_BOOTLDR_SIZE_KB * 1024)

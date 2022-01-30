@@ -30,6 +30,7 @@ uint8_t i2c_read_bit(void);
 
 void i2c_init(void) {
   // Init the GPIO as output, open drain
+  rcc_gpio_enable(SCL_GPIO_Port);
   gpio_set_output_od(SCL_GPIO_Port, SCL_Pin);
   gpio_set_output_od(SDA_GPIO_Port, SDA_Pin);
   SOFT_SCL_HIGH();
