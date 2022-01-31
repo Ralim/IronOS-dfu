@@ -67,6 +67,11 @@ $(BUILD_DIR)/$(BIN).bin: $(BUILD_DIR)/$(BIN).elf
 	@echo "  BIN     $(notdir $@)"
 	$(CMD_ECHO) $(OBJCOPY) -O binary $< $@
 
+
+$(BUILD_DIR)/$(BIN).dfu: $(BUILD_DIR)/$(BIN).hex
+	@echo "  DFUSEPACK $(notdir $@)"
+	$(CMD_ECHO) $(DFUSEPACK) --build-ihex $<  $@
+
 -include $(addprefix $(BUILD_DIR)/, $(FILENAMES_C:.c=.d))
 -include $(addprefix $(BUILD_DIR)/, $(FILENAMES_CXX:.cpp=.d))
 

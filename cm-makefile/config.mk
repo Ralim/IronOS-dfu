@@ -118,6 +118,7 @@ OBJCOPY := $(CROSS_COMPILE)objcopy
 OBJDUMP := $(CROSS_COMPILE)objdump
 SIZE := $(CROSS_COMPILE)size
 GDB := $(CROSS_COMPILE)gdb
+DFUSEPACK := tools/dfuse-pack.py
 
 # Use g++ as a linker if there are any C++ object files:
 ifeq ($(OBJS_CXX),)
@@ -138,7 +139,9 @@ OUTPUTS = $(BUILD_DIR)/$(BIN).elf \
 	  $(BUILD_DIR)/$(BIN).hex \
           $(BUILD_DIR)/$(BIN).bin \
           $(BUILD_DIR)/$(BIN).sym \
-          $(BUILD_DIR)/$(BIN).disasm
+          $(BUILD_DIR)/$(BIN).disasm \
+          $(BUILD_DIR)/$(BIN).dfu 
+          
 
 # Dependencies:
 DEPS ?=

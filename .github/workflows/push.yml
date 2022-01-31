@@ -10,7 +10,10 @@ jobs:
 
     steps:
       - name: Install dependencies (apk)
-        run: apk add --no-cache gcc-arm-none-eabi newlib-arm-none-eabi findutils make git
+        run: apk add --no-cache gcc-arm-none-eabi newlib-arm-none-eabi findutils make git python python-pip
+
+      - name: Install dependencies (py)
+        run: pip3 install IntelHex
 
       - uses: actions/checkout@v2
         with:

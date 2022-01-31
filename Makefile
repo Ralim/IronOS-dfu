@@ -30,7 +30,6 @@ include cm-makefile/config.mk
 include cm-makefile/rules.mk
 include cm-makefile/jlink.mk
 
-# Disable GCC warnings which are triggered by the STM32CubeF0 SDK
 WARNFLAGS += -Wno-undef -Wno-conversion  -Wall -pedantic -Werror 
 
 OPTFLAGS =  -Os -flto -finline-small-functions \
