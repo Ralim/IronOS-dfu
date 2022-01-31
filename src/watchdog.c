@@ -2,7 +2,9 @@
 
 // Enables the watchdog using a period of 1/(40Khz / 256 / 4095) = 26.2s
 void enable_iwdg(void) {
-  return;
+  if (IWDG_PR != 0) {
+    return;
+  }
   // First start LSI oscillator
   RCC_CSR |= LSI_ON;
   while (RCC_CSR & LSI_RDY) {}
