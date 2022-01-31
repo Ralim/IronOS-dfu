@@ -1,5 +1,5 @@
 #include "flash.h"
-
+#include "watchdog.h"
 void _flash_program_buffer(uint32_t address, uint16_t *data, unsigned len) {
   _flash_wait_for_last_operation();
 
@@ -33,18 +33,26 @@ void _flash_unlock(int opt) {
 void _flash_lock() { FLASH_CR |= FLASH_CR_LOCK; }
 
 void _flash_erase_page(uint32_t page_address) {
+#ifdef ENABLE_WATCHDOG
+  iwdg_reset();
+#endif
   _flash_wait_for_last_operation();
 
   FLASH_CR |= FLASH_CR_PER;
   FLASH_AR = page_address;
   FLASH_CR |= FLASH_CR_STRT;
-
+#ifdef ENABLE_WATCHDOG
+  iwdg_reset();
+#endif
   _flash_wait_for_last_operation();
 
   FLASH_CR &= ~FLASH_CR_PER;
 }
 
 int _flash_page_is_erased(uint32_t addr) {
+#ifdef ENABLE_WATCHDOG
+  iwdg_reset();
+#endif
   volatile uint32_t *_ptr32 = (uint32_t *)addr;
   for (unsigned i = 0; i < 1024 / sizeof(uint32_t); i++)
     if (_ptr32[i] != 0xffffffffU)

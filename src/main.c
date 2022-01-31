@@ -42,10 +42,8 @@ int main(void) {
   volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
   *_csb_vtor                   = VECTOR_TABLE_OFFSET;
 #ifdef ENABLE_WATCHDOG
-#ifdef BOOTLOADER_MODE
   // Enable the watchdog
   enable_iwdg();
-#endif
 #endif
 
   int go_dfu = force_dfu_gpio();
