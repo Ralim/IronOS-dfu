@@ -39,8 +39,6 @@ int main(void) {
    * boot into DFU if the user app has been erased. */
 
   // Setup vector table to use out offset whatever it is
-  volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
-  *_csb_vtor                   = FLASH_BASE_ADDR | VECTOR_TABLE_OFFSET;
 #ifdef ENABLE_WATCHDOG
   // Enable the watchdog
   enable_iwdg();
@@ -55,8 +53,8 @@ int main(void) {
 #endif
 
     // Set vector table base address.
-
-    *_csb_vtor = APP_ADDRESS & 0xFFFF;
+    volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
+    *_csb_vtor                   = APP_ADDRESS & 0xFFFF;
     // Initialise master stack pointer.
     __asm__ volatile("msr msp, %0" ::"g"(*(volatile uint32_t *)APP_ADDRESS));
     // Jump to application.

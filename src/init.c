@@ -1,8 +1,9 @@
 
 // Based on libopencm3 project.
+#include "setup.h"
 #include <stdint.h>
 void null_handler(void);
-int main(void);
+int  main(void);
 void __attribute__((naked)) reset_handler(void);
 
 extern unsigned _data_loadaddr, _data, _edata, _ebss, _stack;
@@ -10,7 +11,7 @@ extern unsigned _data_loadaddr, _data, _edata, _ebss, _stack;
 typedef void (*vector_table_entry_t)(void);
 
 typedef struct {
-  unsigned int *initial_sp_value; /**< Initial stack pointer value. */
+  unsigned int        *initial_sp_value; /**< Initial stack pointer value. */
   vector_table_entry_t reset;
   vector_table_entry_t nmi;
   vector_table_entry_t hard_fault;
@@ -26,23 +27,10 @@ typedef struct {
 } vector_table_t;
 
 // A handler that does nothing, we use no interrupts
-void null_handler(void) {
-  while (1)
-    ;
-}
+void null_handler(void) { _full_system_reset(); }
 
 /* Less common symbols exported by the linker script(s): */
 typedef void (*funcp_t)(void);
-
-void __attribute__((naked)) nmi_handler(void);
-void __attribute__((naked)) hard_fault_handler(void);
-void __attribute__((naked)) memory_manage_fault_handler(void);
-void __attribute__((naked)) bus_fault_handler(void);
-void __attribute__((naked)) usage_fault_handler(void);
-void __attribute__((naked)) debug_monitor_handler(void);
-void __attribute__((naked)) sv_call_handler(void);
-void __attribute__((naked)) pend_sv_handler(void);
-void __attribute__((naked)) systick_handler(void);
 
 void __attribute__((naked)) reset_handler(void) {
   volatile unsigned *src, *dest;
@@ -65,25 +53,15 @@ void __attribute__((naked)) reset_handler(void) {
 
 // Vector table (bare minimal one)
 __attribute__((section(".vectors"))) vector_table_t vector_table = {
-    .initial_sp_value = &_stack,
-    .reset = reset_handler,
-    .nmi = nmi_handler,
-    .hard_fault = hard_fault_handler,
-    .memory_manage_fault = memory_manage_fault_handler,
-    .bus_fault = bus_fault_handler,
-    .usage_fault = usage_fault_handler,
-    .debug_monitor = debug_monitor_handler,
-    .sv_call = sv_call_handler,
-    .pend_sv = pend_sv_handler,
-    .systick = systick_handler,
+    .initial_sp_value    = &_stack,
+    .reset               = reset_handler,
+    .nmi                 = null_handler,
+    .hard_fault          = null_handler,
+    .memory_manage_fault = null_handler,
+    .bus_fault           = null_handler,
+    .usage_fault         = null_handler,
+    .debug_monitor       = null_handler,
+    .sv_call             = null_handler,
+    .pend_sv             = null_handler,
+    .systick             = null_handler,
 };
-
-void __attribute__((naked)) nmi_handler(void) { asm("bkpt"); }
-void __attribute__((naked)) hard_fault_handler(void) { asm("bkpt"); }
-void __attribute__((naked)) memory_manage_fault_handler(void) { asm("bkpt"); }
-void __attribute__((naked)) bus_fault_handler(void) { asm("bkpt"); }
-void __attribute__((naked)) usage_fault_handler(void) { asm("bkpt"); }
-void __attribute__((naked)) debug_monitor_handler(void) { asm("bkpt"); }
-void __attribute__((naked)) sv_call_handler(void) { asm("bkpt"); }
-void __attribute__((naked)) pend_sv_handler(void) { asm("bkpt"); }
-void __attribute__((naked)) systick_handler(void) { asm("bkpt"); }

@@ -1,6 +1,11 @@
 #include "oled.h"
+#include "config.h"
 #include "font.h"
+#include "setup.h"
 #include <string.h>
+#define OLED_RESET_Pin       8
+#define OLED_RESET_GPIO_Port GPIOA
+
 uint8_t oled_init_array[] = {
     // Every line is a pair of init terms
     0x80, 0xAE, /*Display off*/
@@ -65,6 +70,21 @@ void Data_Command(uint8_t len, const uint8_t *ptr);
 void OLED_DrawChar(char c, uint8_t x, const uint8_t row);
 void Set_ShowPos(uint8_t x, uint8_t y);
 void oled_init(void) {
+  rcc_gpio_enable(OLED_RESET_GPIO_Port);
+  gpio_set_output(OLED_RESET_GPIO_Port, OLED_RESET_Pin);
+  gpio_clear(OLED_RESET_GPIO_Port, OLED_RESET_Pin);
+  // Delay a few ms
+
+#ifdef ENABLE_WATCHDOG
+  iwdg_reset();
+#endif
+  for (unsigned int yyyy = 0; yyyy < 100; yyyy++) {
+    __asm__("nop");
+    __asm__("nop");
+    __asm__("nop");
+  }
+
+  gpio_set(OLED_RESET_GPIO_Port, OLED_RESET_Pin);
   const int len = sizeof(oled_init_array) / 2;
   for (int i = 0; i < len; i++) {
     i2c_write_reg(DEVICEADDR_OLED, oled_init_array[i * 2], oled_init_array[(i * 2) + 1]);
