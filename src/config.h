@@ -6,7 +6,7 @@
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
 
 #define ENABLE_DFU_UPLOAD
-#define ENABLE_WATCHDOG 26 /* 26 second watchdog*/
+#define ENABLE_WATCHDOG
 
 #if VECTOR_TABLE_OFFSET != 0
 #define SHOW_HASH

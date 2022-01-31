@@ -40,11 +40,12 @@ int main(void) {
 
   // Setup vector table to use out offset whatever it is
   volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
-  *_csb_vtor                   = FLASH_BASE | VECTOR_TABLE_OFFSET;
-
+  *_csb_vtor                   = VECTOR_TABLE_OFFSET;
+#ifdef ENABLE_WATCHDOG
 #ifdef BOOTLOADER_MODE
-  // Enable the watchdog, only in bootloader mode as it doesnt work in runtime mode as its already started
-  enable_iwdg((4096 * ENABLE_WATCHDOG) / 26);
+  // Enable the watchdog
+  enable_iwdg();
+#endif
 #endif
 
   int go_dfu = force_dfu_gpio();
@@ -80,12 +81,15 @@ int main(void) {
   // USB de-enumeration
   i2c_init();
   oled_init();
+#ifdef ENABLE_WATCHDOG
+  iwdg_reset();
+#endif
   display_splash();
-  for (unsigned int x10ms = 0; x10ms < 150; x10ms++) {
+  for (unsigned int xxxx = 0; xxxx < 15000; xxxx++) {
 #ifdef ENABLE_WATCHDOG
     iwdg_reset();
 #endif
-    for (unsigned int i = 0; i < 100000; i++) {
+    for (unsigned int yyyy = 0; yyyy < 1000; yyyy++) {
       __asm__("nop");
       __asm__("nop");
       __asm__("nop");

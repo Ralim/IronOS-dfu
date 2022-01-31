@@ -8,7 +8,7 @@
             "name": "C++ Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/build/stm32-dfu.elf",
+            "program": "${workspaceRoot}/build/bootloader.elf",
             "miDebuggerServerAddress": "127.0.0.1:2331",
             "miDebuggerPath": "/usr/bin/arm-none-eabi-gdb",
             "cwd": "${workspaceRoot}",
