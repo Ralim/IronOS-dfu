@@ -70,11 +70,11 @@ int main(void) {
    * (need at least 2.5us to trigger usb disconnect)
    */
 
-  // rcc_gpio_enable(GPIOA);
-  // gpio_set_output(GPIOA, 12);
-  // gpio_clear(GPIOA, 12);
-  // We are using the I2C init and write to cover for the delay we need for the
-  // USB de-enumeration
+  rcc_gpio_enable(GPIOA);
+  gpio_set_output(GPIOA, 12);
+  gpio_clear(GPIOA, 12);
+  //  We are using the I2C init and write to cover for the delay we need for the
+  //  USB de-enumeration
 
   i2c_init();
   oled_init();
@@ -83,7 +83,7 @@ int main(void) {
 #endif
   display_splash();
 
-  for (unsigned int xxxx = 0; xxxx < 15000; xxxx++) {
+  for (unsigned int xxxx = 0; xxxx < 10000; xxxx++) {
 #ifdef ENABLE_WATCHDOG
     iwdg_reset();
 #endif

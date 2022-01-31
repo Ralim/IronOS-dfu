@@ -79,7 +79,7 @@ void oled_init(void) {
 #ifdef ENABLE_WATCHDOG
   iwdg_reset();
 #endif
-  for (unsigned int yyyy = 0; yyyy < 100; yyyy++) {
+  for (unsigned int yyyy = 0; yyyy < 10; yyyy++) {
     __asm__("nop");
     __asm__("nop");
     __asm__("nop");

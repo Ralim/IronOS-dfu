@@ -3,6 +3,8 @@
         "utils.h": "c",
         "cstring": "c",
         "variant": "c",
-        "string_view": "c"
+        "string_view": "c",
+        "*.ipp": "c",
+        "*.tcc": "c"
     }
 }
