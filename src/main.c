@@ -71,9 +71,10 @@ int main(void) {
   *USB_CNTR_REG = USB_CNTR_PWDN;
 
   /*
-   * Vile hack to reenumerate, physically _drag_ d+ low.
+   * The usual hack to reenumerate, physically _drag_ d+ low.
    * (need at least 2.5us to trigger usb disconnect)
    */
+
   rcc_gpio_enable(GPIOA);
   gpio_set_output(GPIOA, 12);
   gpio_clear(GPIOA, 12);
