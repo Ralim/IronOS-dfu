@@ -2,6 +2,7 @@
 #include "config.h"
 #include "font.h"
 #include "setup.h"
+#include "watchdog.h"
 #include <string.h>
 #define OLED_RESET_Pin       8
 #define OLED_RESET_GPIO_Port GPIOA
