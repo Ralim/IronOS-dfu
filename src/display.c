@@ -14,7 +14,8 @@ void display_show_version(void) {
   // Prints to the screen, the DFU version
   oled_clearScreen();
 
-  OLED_DrawString("DFU v1.0", 8);
+  OLED_DrawString("DFU v1.0", 0);
+  OLED_DrawString(VERSION, 1);
   oled_Refresh();
 }
 void display_splash(void) {

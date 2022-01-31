@@ -19,8 +19,6 @@ void oled_DrawArea(uint8_t x0, uint8_t y0, uint8_t wide, uint8_t height, const u
 void oled_clearScreen(void); // Clear the screen
 
 /*Functions for writing to the screen*/
-void OLED_DrawString(const char *string, const uint8_t length);
-void OLED_DrawChar(char c, uint8_t x);
-void OLED_DrawTwoNumber(uint8_t in, uint8_t x);
+void OLED_DrawString(const char *string, const uint8_t row);
 
 #endif

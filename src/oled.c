@@ -62,6 +62,7 @@ const uint8_t REFRESH_COMMANDS[] = {
 };
 
 void Data_Command(uint8_t len, const uint8_t *ptr);
+void OLED_DrawChar(char c, uint8_t x, const uint8_t row);
 void Set_ShowPos(uint8_t x, uint8_t y);
 void oled_init(void) {
   const int len = sizeof(oled_init_array) / 2;
@@ -143,26 +144,36 @@ void oled_clearScreen(void) { memset(displayBuffer, 0, 96 * 2); }
 /*
  * Draws a string onto the screen starting at the left
  */
-void OLED_DrawString(const char *string, const uint8_t length) {
-  for (uint8_t i = 0; i < length; i++) {
-    OLED_DrawChar(string[i], i);
+void OLED_DrawString(const char *string, const uint8_t row) {
+  uint8_t i = 0;
+  while (string[0] != 0 && i < (96 / FONT_WIDTH)) {
+    OLED_DrawChar(string[0], i, row);
+    i++;
+    string++;
   }
 }
 /*
  * Draw a char onscreen at letter index x
  */
-void OLED_DrawChar(char c, uint8_t x) {
-  if (x > 7)
-    return; // clipping
+void OLED_DrawChar(char c, uint8_t x, const uint8_t row) {
+  // lowercase -> uppercase
+  if (c >= 'a' && c <= 'z') {
+    c -= 'a';
+    c += 'A';
+  }
+  if (c > 'Z') {
+    c = ' ';
+  } else if (c < ' ') {
+    c = ' ';
+  }
 
   x *= FONT_WIDTH; // convert to a x coordinate
-  uint8_t *ptr;
   uint16_t offset = 0;
-  ptr             = (uint8_t *)FONT;
+  uint8_t *ptr    = (uint8_t *)FONT;
   offset          = c - ' ';
 
-  offset *= (2 * FONT_WIDTH);
+  offset *= (FONT_WIDTH * (FONT_HEIGHT / 8));
   ptr += offset;
 
-  oled_DrawArea(x, 0, FONT_WIDTH, 16, (uint8_t *)ptr);
+  oled_DrawArea(x, row * 8, FONT_WIDTH, FONT_HEIGHT, (uint8_t *)ptr);
 }
