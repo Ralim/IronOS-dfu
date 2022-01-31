@@ -1,5 +1,5 @@
 #include "watchdog.h"
-
+#ifdef ENABLE_WATCHDOG
 // Enables the watchdog using a period of 1/(40Khz / 256 / 4095) = 26.2s
 void enable_iwdg(void) {
   if (IWDG_PR != 0) {
@@ -21,3 +21,4 @@ void enable_iwdg(void) {
   IWDG_KR = IWDG_KR_START;
 }
 void iwdg_reset(void) { IWDG_KR = IWDG_KR_RESET; }
+#endif

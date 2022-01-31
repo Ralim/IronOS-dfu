@@ -40,7 +40,7 @@ int main(void) {
 
   // Setup vector table to use out offset whatever it is
   volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
-  *_csb_vtor                   = VECTOR_TABLE_OFFSET;
+  *_csb_vtor                   = FLASH_BASE_ADDR | VECTOR_TABLE_OFFSET;
 #ifdef ENABLE_WATCHDOG
   // Enable the watchdog
   enable_iwdg();
@@ -62,7 +62,6 @@ int main(void) {
     // Jump to application.
     (*(void (**)())(APP_ADDRESS + 4))();
   }
-
   rcc_clock_setup_in_hsi_out_48mhz();
 
   /* Disable USB peripheral as it overrides GPIO settings */
@@ -73,17 +72,19 @@ int main(void) {
    * (need at least 2.5us to trigger usb disconnect)
    */
 
-  rcc_gpio_enable(GPIOA);
-  gpio_set_output(GPIOA, 12);
-  gpio_clear(GPIOA, 12);
+  // rcc_gpio_enable(GPIOA);
+  // gpio_set_output(GPIOA, 12);
+  // gpio_clear(GPIOA, 12);
   // We are using the I2C init and write to cover for the delay we need for the
   // USB de-enumeration
+
   i2c_init();
   oled_init();
 #ifdef ENABLE_WATCHDOG
   iwdg_reset();
 #endif
   display_splash();
+
   for (unsigned int xxxx = 0; xxxx < 15000; xxxx++) {
 #ifdef ENABLE_WATCHDOG
     iwdg_reset();

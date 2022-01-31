@@ -14,11 +14,11 @@
 
 #define SOFT_SDA_READ() (gpio_read(SDA_GPIO_Port, SDA_Pin) ? 1 : 0)
 #define SOFT_SCL_READ() (gpio_read(SCL_GPIO_Port, SCL_Pin) ? 1 : 0)
-#define SOFT_I2C_DELAY()              \
-  {                                   \
-    for (int xx = 0; xx < 40; xx++) { \
-      asm("nop");                     \
-    }                                 \
+#define SOFT_I2C_DELAY()               \
+  {                                    \
+    for (int xx = 0; xx < 100; xx++) { \
+      asm("nop");                      \
+    }                                  \
   }
 
 void    i2c_start(void);
