@@ -44,4 +44,39 @@ Upload	[=========================] 100%        16384 bytes
 Upload done.
 ```
 
-If you have lost your backup, and you need one; if you contact @ralim really nicely, and can prove your iron is legitament and not a clone, they _may_ help you out.
+If you have lost your backup, and you need one; if you contact @ralim really nicely, and can prove your iron is legitament and not a clone, they _may_ help you out. **Do not open Github issues asking for files, these will be closed.**
+
+## Checking your bootloader backup is valid
+
+Eventually checksums of some bootloaders will be listed here when we have some :).
+
+In the mean time, you can validate if your backup looks valid by loading it into [hexed.it](https://hexed.it/).
+
+The beginning of the file should start with repeating patterns of bytes that look roughly like the following, where its a set of repeating bytes every 4 bytes. The actual values will be different for every bootloader build; but the pattern will be roughly the same.
+
+```C
+	0x18, 0x31, 0x00, 0x20, 0x45, 0x2F, 0x00, 0x08, 0x09, 0x2F, 0x00, 0x08,
+	0x0B, 0x2F, 0x00, 0x08, 0x0D, 0x2F, 0x00, 0x08, 0x0F, 0x2F, 0x00, 0x08,
+	0x11, 0x2F, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x13, 0x2F, 0x00, 0x08,
+	0x15, 0x2F, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x17, 0x2F, 0x00, 0x08,
+	0x19, 0x2F, 0x00, 0x08, 0x89, 0x2F, 0x00, 0x08, 0x8D, 0x2F, 0x00, 0x08,
+	0x91, 0x2F, 0x00, 0x08, 0x95, 0x2F, 0x00, 0x08, 0x99, 0x2F, 0x00, 0x08,
+```
+
+## Restoring your bootloader
+
+If for some reason you want to restore your bootloader, you can flash the `.bin` backup file you downloaded.
+Load the runtime back onto your iron
+
+```
+dfu-util -D runtime.dfu
+```
+
+then flash the `backup.bin` you created earlier
+
+```
+sudo dfu-util -d 0483:df11 -a 0 -D backup.bin -s 0x08000000
+```
+
+After this flash finishes, you will now have your backup restored to your iron.

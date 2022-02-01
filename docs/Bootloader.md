@@ -1,5 +1,9 @@
 # Using this as your DFU bootloader
 
+This software can be used to replace the bootloader built into your device from Miniware. This bootloader is only _designed_ to boot IronOS (its only tested with IronOS) but it _should_ work with the stock firmware too.
+
+This DFU loader replaces the often troubled usb-disk method with the well known dfu-util. This is the same method used on the Pinecil, and lets all your devices enjoy more stable updating.
+
 ## Flashing this bootloader
 
 To flash this as your main DFU bootloader, you need to flash the correct version to the bootloader location on your Iron.

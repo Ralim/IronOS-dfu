@@ -35,5 +35,4 @@ jobs:
           path: |
             build/*.hex
             build/*.dfu
-            build/*.bin
           if-no-files-found: error

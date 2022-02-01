@@ -1,20 +1,6 @@
 # IronOS DFU Bootloader for Miniware
 
-Based on the awesome work by https://github.com/davidgfnet/stm32-dfu-bootloader
-and huge kudos for the framework https://github.com/adamheinrich/cm-makefile.
-Based on ideas and a lot of work done by @perillamint https://github.com/eDesignOSS/ts100-bl-flasher.
-This can be thought of as version _2_.
-
-This is _going to be_ an alternative bootloader for the Miniware Irons.
-
-**THIS IS NOT PRODUCTION READY. DO NOT FLASH THIS YET.**
-
-## Planned features:
-
-1. Backup your stock bootloader
-2. Flash any other bootloader to your device (With some safety)
-3. Supports the OLED screen
-4. Designed for working with the Miniware Irons.. But should work on any STM32F1 part with minimal (or no) modifications
+This is a replacement bootloader for Miniware irons. This replaces the build in bootloader with one that can be used with `dfu-util`.
 
 ## How it works
 
@@ -30,3 +16,10 @@ The bootloader version is intended to be used as your device bootloader. It will
 In runtime mode, it is expected to be running where your main firmware _would be_.
 In this mode it can be used to read/write the actual bootloader on the device.
 This is not a completely risk free process since if you wipe your bootloader and then power cycle you cant boot. But it does mean it can keep running _whileever_ you have power so you can fix it.
+
+---
+
+Based on the awesome work by https://github.com/davidgfnet/stm32-dfu-bootloader
+and huge kudos for the framework https://github.com/adamheinrich/cm-makefile.
+Based on ideas and a lot of work done by @perillamint https://github.com/eDesignOSS/ts100-bl-flasher.
+This can be thought of as version _2_.
