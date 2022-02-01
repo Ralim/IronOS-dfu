@@ -1,6 +1,7 @@
 GIT_VERSION := $(shell git describe --abbrev=8 --dirty --always --tags)
 
 build_type ?= runtime
+model ?= unknown
 
 ifeq ($(build_type), runtime)
     VECTOR_TABLE_OFFSET := 0x4000
@@ -14,13 +15,17 @@ BIN = bootloader
 
 endif
 
+# For MHP30 override the runtime to offset to 32k
+ifeq ($(model),"MHP30")
+SRC_LD = stm32f103_32k_runtime.ld
+endif
 
 
 INC = -I src
 
 SRC_C += $(wildcard src/*.c)
 # Defines required by included libraries
-DEF = -DSTM32F030x8 -DVERSION=\"$(GIT_VERSION)\" -DVECTOR_TABLE_OFFSET=${VECTOR_TABLE_OFFSET}
+DEF = -DSTM32F030x8 -DVERSION=\"$(GIT_VERSION)\" -DVECTOR_TABLE_OFFSET=${VECTOR_TABLE_OFFSET} -DMODEL_${model}=1
 
 # OpenOCD setup
 

@@ -7,7 +7,10 @@ jobs:
     runs-on: ubuntu-20.04
     container:
       image: alpine:3.15
-
+    strategy:
+      matrix:
+        model: ["TS100", "TS80", "TS80P", "MHP30"]
+      fail-fast: true
     steps:
       - name: Install dependencies (apk)
         run: apk add --no-cache gcc-arm-none-eabi newlib-arm-none-eabi findutils make git python3 py3-pip
@@ -19,15 +22,16 @@ jobs:
         with:
           submodules: true
 
-      - name: build runtime
-        run: make all build_type=runtime
+      - name: build runtime ${{ matrix.model }}
+        run: make all build_type=runtime model=${{ matrix.model }}
 
-      - name: build bootloader
-        run: rm -rf build/*.o build/*.d && make all build_type=bootloader
+      - name: build bootloader ${{ matrix.model }}
+        run: rm -rf build/*.o build/*.d && make all build_type=bootloader model=${{ matrix.model }}
 
-      - name: Archive  artifacts
+      - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
+          name: ${{ matrix.model }}
           path: |
             build/*.hex
             build/*.dfu

@@ -4,8 +4,6 @@
 #include "setup.h"
 #include "watchdog.h"
 #include <string.h>
-#define OLED_RESET_Pin       8
-#define OLED_RESET_GPIO_Port GPIOA
 
 uint8_t oled_init_array[] = {
     // Every line is a pair of init terms

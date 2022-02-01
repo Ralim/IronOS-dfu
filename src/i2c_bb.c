@@ -1,11 +1,8 @@
 #include "i2c_bb.h"
+#include "config.h"
 #include "setup.h"
 // A minimal i2c bit-banging code implementation
 // So that we can push info to the lcd
-#define SCL_Pin       6
-#define SCL_GPIO_Port GPIOB
-#define SDA_Pin       7
-#define SDA_GPIO_Port GPIOB
 
 #define SOFT_SCL_HIGH() gpio_set(SCL_GPIO_Port, SCL_Pin)
 #define SOFT_SCL_LOW()  gpio_clear(SCL_GPIO_Port, SCL_Pin)
