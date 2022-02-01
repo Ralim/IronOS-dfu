@@ -29,7 +29,7 @@ If anything goes wrong **do not power down your iron**, if you saw any "Erase" p
 
 To flash the bootloader version of the firmware, with the runtime code running; execute this command
 
-`dfu-util -D booloader.dfu`
+`dfu-util -D bootloader.dfu`
 
 And if this works at the end you should see no errors and see "Download done".
 At this point the moment of truth is to reboot your iron and check it boots up correctly.
