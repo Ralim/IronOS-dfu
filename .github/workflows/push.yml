@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Install dependencies (apk)
-        run: apk add --no-cache gcc-arm-none-eabi newlib-arm-none-eabi findutils make git python python-pip
+        run: apk add --no-cache gcc-arm-none-eabi newlib-arm-none-eabi findutils make git python3 py3-pip
 
       - name: Install dependencies (py)
         run: pip3 install IntelHex
@@ -30,5 +30,6 @@ jobs:
         with:
           path: |
             build/*.hex
+            build/*.dfu
             build/*.bin
           if-no-files-found: error

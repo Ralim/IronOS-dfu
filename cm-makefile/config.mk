@@ -118,7 +118,7 @@ OBJCOPY := $(CROSS_COMPILE)objcopy
 OBJDUMP := $(CROSS_COMPILE)objdump
 SIZE := $(CROSS_COMPILE)size
 GDB := $(CROSS_COMPILE)gdb
-DFUSEPACK := tools/dfuse-pack.py
+DFUSEPACK := python3 tools/dfuse-pack.py
 
 # Use g++ as a linker if there are any C++ object files:
 ifeq ($(OBJS_CXX),)
