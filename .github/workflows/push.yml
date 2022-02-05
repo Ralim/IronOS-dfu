@@ -22,17 +22,26 @@ jobs:
         with:
           submodules: true
 
+      - name: prep
+        run: mkdir -p /tmp/${{ matrix.model }}
+
       - name: build runtime ${{ matrix.model }}
         run: make all build_type=runtime model=${{ matrix.model }}
 
+      - name: cp outputs
+        run: cp build/*.hex build/*.dfu /tmp/${{ matrix.model }}
+
       - name: build bootloader ${{ matrix.model }}
-        run: rm -rf build/*.o build/*.d && make all build_type=bootloader model=${{ matrix.model }}
+        run: make clean && make all build_type=bootloader model=${{ matrix.model }}
+
+      - name: cp outputs
+        run: cp build/*.hex build/*.dfu /tmp/${{ matrix.model }}
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.model }}
           path: |
-            build/*.hex
-            build/*.dfu
+            /tmp/${{ matrix.model }}/*.hex
+            /tmp/${{ matrix.model }}/*.dfu
           if-no-files-found: error
