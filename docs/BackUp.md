@@ -17,7 +17,11 @@ The Iron will show a IronOS logo and then show the text "DFU" with its version n
 ## Step 2: Use dfu-util to read out your current bootloader
 
 ```
+For TS80,TS80P,TS100
 dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4000
+OR for MHP30
+dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x8000
+
 ```
 
 Run this command with the iron connected via USB, and it will create a file called backup.bin in the current folder. this will be a copy of your bootloader for you to keep should you wish to return.
