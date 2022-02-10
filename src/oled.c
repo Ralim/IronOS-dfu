@@ -21,7 +21,7 @@ uint8_t oled_init_array[] = {
     0x80, 0x00, /*0 Offset*/
     0x80, 0x40, /*Set Display start line to 0*/
 #ifdef OLED_FLIP
-    0x80, 0xA0, /*Set Segment remap to backwards*/
+    0x80, 0xA1, /*Set Segment remap to backwards*/
 #else
     0x80, 0xA0, /*Set Segment remap to normal*/
 #endif
@@ -59,7 +59,11 @@ const uint8_t REFRESH_COMMANDS[] = {
     0x7F, // B
 
     // Set COM output scan direction (normal mode, COM0 to COM[N-1])
-    0x80, 0xC0,
+#ifdef OLED_FLIP
+    0x80, 0xC8, /*Set COM Scan direction backwards*/
+#else
+    0x80, 0xC0, /*Set COM Scan direction*/
+#endif
 
     // Set page address:
     //  A[2:0] - Page start address = 0
