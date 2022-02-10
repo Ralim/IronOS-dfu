@@ -45,6 +45,7 @@
 #define FLASH_SIZE_KB                 128
 #define FLASH_BOOTLDR_SIZE_KB         16
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
+#define OLED_FLIP
 
 #elif MODEL_MHP30
 #define GPIO_DFU_BOOT_PORT            GPIOA

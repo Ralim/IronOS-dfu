@@ -12,11 +12,19 @@ uint8_t oled_init_array[] = {
     0x80, 0x52, /*Divide ratios*/
     0x80, 0xA8, /*Set Multiplex Ratio*/
     0x80, 0x0F, /*16 == max brightness,39==dimmest*/
+#ifdef OLED_FLIP
+    0x80, 0xC8, /*Set COM Scan direction backwards*/
+#else
     0x80, 0xC0, /*Set COM Scan direction*/
+#endif
     0x80, 0xD3, /*Set vertical Display offset*/
     0x80, 0x00, /*0 Offset*/
     0x80, 0x40, /*Set Display start line to 0*/
+#ifdef OLED_FLIP
+    0x80, 0xA0, /*Set Segment remap to backwards*/
+#else
     0x80, 0xA0, /*Set Segment remap to normal*/
+#endif
     0x80, 0x8D, /*Charge Pump*/
     0x80, 0x14, /*Charge Pump settings*/
     0x80, 0xDA, /*Set VCOM Pins hardware config*/
