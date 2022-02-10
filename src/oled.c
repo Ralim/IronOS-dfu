@@ -114,7 +114,7 @@ uint8_t OLEDOnOffState = 0; // Used to lock out so we dont send it too often
 void Data_Command(uint8_t length, const uint8_t *data) {
   int     i;
   uint8_t tx_data[96 + 96 + 1];
-  // here are are inserting the data write command at the beginning
+  // here we are inserting the data write command at the beginning
   tx_data[0] = 0x40;
   length++;
   for (i = 1; i <= length; i++) // Loop through the array of data
