@@ -11,7 +11,7 @@ uint8_t oled_init_array[] = {
     0x80, 0xD5, /*Set display clock divide ratio / osc freq*/
     0x80, 0x52, /*Divide ratios*/
     0x80, 0xA8, /*Set Multiplex Ratio*/
-    0x80, 0x0F, /*16 == max brightness,39==dimmest*/
+    0x80, 0x0F, /*Vertical Size - 1*/
 #ifdef OLED_FLIP
     0x80, 0xC8, /*Set COM Scan direction backwards*/
 #else
@@ -30,7 +30,7 @@ uint8_t oled_init_array[] = {
     0x80, 0xDA, /*Set VCOM Pins hardware config*/
     0x80, 0x02, /*Combination 2*/
     0x80, 0x81, /*Brightness*/
-    0x80, 0x00, /*^0*/
+    0x80, 0x00, /*FF == max brightness, 0==dimmest*/
     0x80, 0xD9, /*Set pre-charge period*/
     0x80, 0xF1, /*Pre charge period*/
     0x80, 0xDB, /*Adjust VCOMH regulator ouput*/
