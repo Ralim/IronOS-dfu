@@ -30,7 +30,7 @@ uint8_t oled_init_array[] = {
     0x80, 0xDA, /*Set VCOM Pins hardware config*/
     0x80, 0x02, /*Combination 2*/
     0x80, 0x81, /*Brightness*/
-    0x80, 0x00, /*FF == brightest, 0 == dimmest*/
+    0x80, 0x80, /*FF == brightest, 0 == dimmest*/
     0x80, 0xD9, /*Set pre-charge period*/
     0x80, 0xF1, /*Pre charge period*/
     0x80, 0xDB, /*Adjust VCOMH regulator ouput*/
@@ -54,17 +54,24 @@ const uint8_t REFRESH_COMMANDS[] = {
     0x80,
     0x21, // cmd
     0x80,
-    0x20, // A
-    0x80,
-    0x7F, // B
-
-    // Set COM output scan direction (normal mode, COM0 to COM[N-1])
 #ifdef OLED_FLIP
-    0x80, 0xC8, /*Set COM Scan direction backwards*/
+    0,
 #else
-    0x80, 0xC0, /*Set COM Scan direction*/
+    0x20,       // A
 #endif
-
+    0x80,
+#ifdef OLED_FLIP
+    95,
+#else
+    0x7F,       // B
+#endif
+#ifdef OLED_FLIP
+    // Set COM output scan direction (reverse mode, COM[N-1] to COM0)
+    0x80, 0xC8,
+#else
+    // Set COM output scan direction (normal mode, COM0 to COM[N-1])
+    0x80, 0xC0,
+#endif
     // Set page address:
     //  A[2:0] - Page start address = 0
     //  B[2:0] - Page end address = 1
