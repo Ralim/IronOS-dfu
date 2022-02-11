@@ -18,9 +18,9 @@ The Iron will show a IronOS logo and then show the text "DFU" with its version n
 
 ```
 For TS80,TS80P,TS100
-dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4000
+sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4000
 OR for MHP30
-dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x8000
+sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x8000
 
 ```
 
@@ -52,7 +52,13 @@ If you have lost your backup, and you need one; if you contact @ralim really nic
 
 ## Checking your bootloader backup is valid
 
-Eventually checksums of some bootloaders will be listed here when we have some :).
+Known recorded MD5 checksums:
+
+| Device 	| DFU Version 	| MD5                              	|
+|--------	|-------------	|----------------------------------	|
+| TS100  	| 3.45        	| 17FFF8A9D561B226D1DDC2D19BA2198E 	|
+| TS80P  	| 3.50        	| 1805EC83F64C74DD89F87A1B57B7E631 	|
+
 
 In the mean time, you can validate if your backup looks valid by loading it into [hexed.it](https://hexed.it/).
 
