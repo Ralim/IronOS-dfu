@@ -11,7 +11,7 @@ uint8_t oled_init_array[] = {
     0x80, 0xD5, /*Set display clock divide ratio / osc freq*/
     0x80, 0x52, /*Divide ratios*/
     0x80, 0xA8, /*Set Multiplex Ratio*/
-    0x80, 0x0F, /*16 == max brightness,39==dimmest*/
+    0x80, 0x0F, /*Vertical size - 1*/
 #ifdef OLED_FLIP
     0x80, 0xC8, /*Set COM Scan direction backwards*/
 #else
@@ -21,7 +21,7 @@ uint8_t oled_init_array[] = {
     0x80, 0x00, /*0 Offset*/
     0x80, 0x40, /*Set Display start line to 0*/
 #ifdef OLED_FLIP
-    0x80, 0xA0, /*Set Segment remap to backwards*/
+    0x80, 0xA1, /*Set Segment remap to backwards*/
 #else
     0x80, 0xA0, /*Set Segment remap to normal*/
 #endif
@@ -30,7 +30,7 @@ uint8_t oled_init_array[] = {
     0x80, 0xDA, /*Set VCOM Pins hardware config*/
     0x80, 0x02, /*Combination 2*/
     0x80, 0x81, /*Brightness*/
-    0x80, 0x00, /*^0*/
+    0x80, 0x00, /*FF == brightest, 0 == dimmest*/
     0x80, 0xD9, /*Set pre-charge period*/
     0x80, 0xF1, /*Pre charge period*/
     0x80, 0xDB, /*Adjust VCOMH regulator ouput*/
@@ -59,7 +59,11 @@ const uint8_t REFRESH_COMMANDS[] = {
     0x7F, // B
 
     // Set COM output scan direction (normal mode, COM0 to COM[N-1])
-    0x80, 0xC0,
+#ifdef OLED_FLIP
+    0x80, 0xC8, /*Set COM Scan direction backwards*/
+#else
+    0x80, 0xC0, /*Set COM Scan direction*/
+#endif
 
     // Set page address:
     //  A[2:0] - Page start address = 0
@@ -110,7 +114,7 @@ uint8_t OLEDOnOffState = 0; // Used to lock out so we dont send it too often
 void Data_Command(uint8_t length, const uint8_t *data) {
   int     i;
   uint8_t tx_data[96 + 96 + 1];
-  // here are are inserting the data write command at the beginning
+  // here we are inserting the data write command at the beginning
   tx_data[0] = 0x40;
   length++;
   for (i = 1; i <= length; i++) // Loop through the array of data
