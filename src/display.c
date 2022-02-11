@@ -23,7 +23,7 @@ void display_show_version(void) {
 #endif
 
 #endif
-  OLED_DrawString("v " VERSION, 1);
+  OLED_DrawString(VERSION, 1);
   oled_Refresh();
 }
 void display_splash(void) {
