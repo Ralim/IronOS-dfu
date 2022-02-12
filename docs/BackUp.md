@@ -57,6 +57,7 @@ Known recorded MD5 checksums:
 | Device 	| DFU Version 	| MD5                              	|
 |--------	|-------------	|----------------------------------	|
 | TS100  	| 3.45        	| 17FFF8A9D561B226D1DDC2D19BA2198E 	|
+| TS100         | 3.43          | f67879424d73345e4bddca69a4f9c75c      |
 | TS80P  	| 3.50        	| 1805EC83F64C74DD89F87A1B57B7E631 	|
 
 
