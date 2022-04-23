@@ -4,6 +4,9 @@ This software can be used to replace the bootloader built into your device from 
 
 This DFU loader replaces the often troubled usb-disk method with the well known dfu-util. This is the same method used on the Pinecil, and lets all your devices enjoy more stable updating.
 
+
+**Please note: There has been a report that TS100 units shipping with DFU 3.48 may have the lock bits set. If you have this DFU version its reccomended to have a cheap st-link or other SWD programmer in case recovery is needed. #9**
+
 ## Flashing this bootloader
 
 To flash this as your main DFU bootloader, you need to flash the correct version to the bootloader location on your Iron.
