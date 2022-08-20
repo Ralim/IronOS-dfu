@@ -54,12 +54,12 @@ If you have lost your backup, and you need one; if you contact @ralim really nic
 
 Known recorded MD5 checksums:
 
-| Device 	| DFU Version 	| MD5                              	|
-|--------	|-------------	|----------------------------------	|
-| TS100  	| 3.45        	| 17FFF8A9D561B226D1DDC2D19BA2198E 	|
-| TS100         | 3.43          | f67879424d73345e4bddca69a4f9c75c      |
-| TS100         | 3.42          | cd1038179b3fda32e75d6f300d153cb3      |
-| TS80P  	| 3.50        	| 1805EC83F64C74DD89F87A1B57B7E631 	|
+| Device | DFU Version 	| MD5                              |
+|:-------|:------------:|----------------------------------|
+| TS100  | 3.42         | CD1038179B3FDA32E75D6F300D153CB3 |
+| TS100  | 3.43         | F67879424D73345E4BDDCA69A4F9C75C |
+| TS100  | 3.45        	| 17FFF8A9D561B226D1DDC2D19BA2198E |
+| TS80P  | 3.50        	| 1805EC83F64C74DD89F87A1B57B7E631 |
 
 
 In the mean time, you can validate if your backup looks valid by loading it into [hexed.it](https://hexed.it/).
