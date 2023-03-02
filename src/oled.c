@@ -76,11 +76,12 @@ void Data_Command(uint16_t len, const uint8_t *ptr);
 void OLED_DrawChar(char c, uint8_t x, const uint8_t row);
 void Set_ShowPos(uint8_t x, uint8_t y);
 void oled_init(void) {
+#ifdef OLED_RESET_GPIO_Port
   rcc_gpio_enable(OLED_RESET_GPIO_Port);
   gpio_set_output(OLED_RESET_GPIO_Port, OLED_RESET_Pin);
   gpio_clear(OLED_RESET_GPIO_Port, OLED_RESET_Pin);
   // Delay a few ms
-
+#endif
 #ifdef ENABLE_WATCHDOG
   iwdg_reset();
 #endif
@@ -89,8 +90,9 @@ void oled_init(void) {
     __asm__("nop");
     __asm__("nop");
   }
-
+#ifdef OLED_RESET_GPIO_Port
   gpio_set(OLED_RESET_GPIO_Port, OLED_RESET_Pin);
+#endif
   const int len = sizeof(oled_init_array) / 2;
   for (int i = 0; i < len; i++) {
     i2c_write_reg(DEVICEADDR_OLED, oled_init_array[i * 2], oled_init_array[(i * 2) + 1]);
