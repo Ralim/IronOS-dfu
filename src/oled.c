@@ -127,7 +127,7 @@ void Data_Command(uint16_t length, const uint8_t *data) {
 // This causes us to write out the buffered screen data to the display
 void oled_Refresh() {
   i2c_write_bulk(DEVICEADDR_OLED, sizeof(REFRESH_COMMANDS), REFRESH_COMMANDS);
-  Data_Command(96 * 2, displayBuffer);
+  Data_Command((OLED_HEIGHT / 8) * OLED_WIDTH, displayBuffer);
 }
 /*******************************************************************************
  Function:Set_ShowPos
