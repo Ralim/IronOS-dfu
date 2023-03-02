@@ -28,7 +28,6 @@ uint8_t oled_init_array[] = {
     0x80, 0x8D, /*Charge Pump*/
     0x80, 0x14, /*Charge Pump settings*/
     0x80, 0xDA, /*Set VCOM Pins hardware config*/
-    0x80, 0x02, /*Combination 2*/
     0x80, 0x81, /*Brightness*/
     0x80, 0x80, /*FF == brightest, 0 == dimmest*/
     0x80, 0xD9, /*Set pre-charge period*/
@@ -40,6 +39,7 @@ uint8_t oled_init_array[] = {
     0x80, 0x20, /*Memory Mode*/
     0x80, 0x00, /*Wrap memory*/
     0x80, 0xAF, /*Display on*/
+    0x80, OLED_VCOM_LAYOUT, /*Combination 2 for 16 high; 0x12 for 32 high*/
 
 };
 
