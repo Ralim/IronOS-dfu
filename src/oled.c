@@ -7,10 +7,10 @@
 
 uint8_t oled_init_array[] = {
     // Every line is a pair of init terms
-    0x80, 0xAE, /*Display off*/
-    0x80, 0xD5, /*Set display clock divide ratio / osc freq*/
-    0x80, 0x52, /*Divide ratios*/
-    0x80, 0xA8, /*Set Multiplex Ratio*/
+    0x80, 0xAE,            /*Display off*/
+    0x80, 0xD5,            /*Set display clock divide ratio / osc freq*/
+    0x80, 0x52,            /*Divide ratios*/
+    0x80, 0xA8,            /*Set Multiplex Ratio*/
     0x80, OLED_HEIGHT - 1, /*Vertical size - 1*/
 #ifdef OLED_FLIP
     0x80, 0xC8, /*Set COM Scan direction backwards*/
