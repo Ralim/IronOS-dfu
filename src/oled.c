@@ -72,7 +72,7 @@ const uint8_t REFRESH_COMMANDS[] = {
     0x80,
     0x00, // A
     0x80,
-    0x01, // B
+    (OLED_HEIGHT / 8), // B
 
 };
 
