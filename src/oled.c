@@ -51,20 +51,12 @@ const uint8_t REFRESH_COMMANDS[] = {
     // Set column address:
     //  A[6:0] - Column start address = 0x20
     //  B[6:0] - Column end address = 0x7F
-    0x80,
-    0x21, // cmd
-    0x80,
-#ifdef OLED_FLIP
-    0,
-#else
-    0x20,       // A
-#endif
-    0x80,
-#ifdef OLED_FLIP
-    95,
-#else
-    0x7F,       // B
-#endif
+    0x80,            //
+    0x21,            // cmd
+    0x80,            // Data
+    OLED_GRAM_START, // Start
+    0x80,            // Data
+    OLED_GRAM_END,   // End
 #ifdef OLED_FLIP
     // Set COM output scan direction (reverse mode, COM[N-1] to COM0)
     0x80, 0xC8,
