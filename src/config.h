@@ -37,10 +37,10 @@
 #define FLASH_BOOTLDR_SIZE_KB         16
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
 #elif MODEL_S60
-#define GPIO_DFU_BOOT_PORT            GPIOA
-#define GPIO_DFU_BOOT_PIN             9
-#define OLED_RESET_Pin                8 // Dont actually have a reset so just on unused PIO
-#define OLED_RESET_GPIO_Port          GPIOA
+#define GPIO_DFU_BOOT_PORT            GPIOB
+#define GPIO_DFU_BOOT_PIN             0
+#define OLED_RESET_Pin                3 // Dont actually have a reset so just on unused PIO
+#define OLED_RESET_GPIO_Port          GPIOB
 #define FLASH_SIZE_KB                 128
 #define FLASH_BOOTLDR_SIZE_KB         17
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 111
