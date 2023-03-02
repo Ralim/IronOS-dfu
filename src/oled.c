@@ -76,7 +76,7 @@ const uint8_t REFRESH_COMMANDS[] = {
 
 };
 
-void Data_Command(uint8_t len, const uint8_t *ptr);
+void Data_Command(uint16_t len, const uint8_t *ptr);
 void OLED_DrawChar(char c, uint8_t x, const uint8_t row);
 void Set_ShowPos(uint8_t x, uint8_t y);
 void oled_init(void) {
@@ -102,7 +102,7 @@ void oled_init(void) {
   // init should be done now :)
 }
 uint8_t displayOffset = 32;
-uint8_t displayBuffer[2 * 96];
+uint8_t displayBuffer[(OLED_HEIGHT / 8) * OLED_WIDTH];
 uint8_t OLEDOnOffState = 0; // Used to lock out so we dont send it too often
 
 /*
@@ -110,13 +110,12 @@ uint8_t OLEDOnOffState = 0; // Used to lock out so we dont send it too often
  Input: number of bytes to write, array to write
  Output:
  */
-void Data_Command(uint8_t length, const uint8_t *data) {
-  int     i;
-  uint8_t tx_data[96 + 96 + 1];
+void Data_Command(uint16_t length, const uint8_t *data) {
+  uint8_t tx_data[(OLED_HEIGHT / 8) * OLED_WIDTH + 1];
   // here we are inserting the data write command at the beginning
   tx_data[0] = 0x40;
   length++;
-  for (i = 1; i <= length; i++) // Loop through the array of data
+  for (int i = 1; i <= length; i++) // Loop through the array of data
   {
     if (data == 0)
       tx_data[i] = 0;
@@ -158,9 +157,10 @@ void oled_DrawArea(uint8_t x, uint8_t y, uint8_t wide, uint8_t height, const uin
   // We draw the 1 or two stripes seperately
   for (uint8_t i = 0; i < (wide * lines); i++) {
     uint8_t xp      = x + (i % wide);
-    uint8_t yoffset = i < wide ? 0 : 96;
+    uint8_t yoffset = i < wide ? 0 : OLED_WIDTH;
     if (y == 8)
-      yoffset = 96;
+      yoffset = OLED_WIDTH;
+
     displayBuffer[xp + yoffset] = ptr[i];
   }
 }
@@ -176,7 +176,7 @@ void oled_clearScreen(void) { memset(displayBuffer, 0, 96 * 2); }
  */
 void OLED_DrawString(const char *string, const uint8_t row) {
   uint8_t i = 0;
-  while (string[0] != 0 && i < (96 / FONT_WIDTH)) {
+  while (string[0] != 0 && i < (OLED_WIDTH / FONT_WIDTH)) {
     OLED_DrawChar(string[0], i, row);
     i++;
     string++;
