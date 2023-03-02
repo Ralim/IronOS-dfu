@@ -95,6 +95,11 @@ int main(void) {
       __asm__("nop");
     }
   }
+#ifdef GPIO_DP_PULLUP_PORT
+  rcc_gpio_enable(GPIO_DP_PULLUP_PORT);
+  gpio_set_output(GPIO_DP_PULLUP_PORT, GPIO_DP_PULLUP_PIN);
+  gpio_set(GPIO_DP_PULLUP_PORT, GPIO_DP_PULLUP_PIN);
+#endif
   get_dev_unique_id(serial_no);
   usb_init();
   display_show_version();
