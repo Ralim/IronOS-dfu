@@ -12,6 +12,7 @@
     #define OLED_GRAM_START 0x10 // Should be 0x00 when we have full width
     #define OLED_GRAM_END   0x6F // Should be 0x7F when we have full width
     #define OLED_VCOM_LAYOUT 0x12
+    #define OLED_SEGMENT_MAP 0xA1
 #else
     #define OLED_WIDTH  96
     #define OLED_HEIGHT 16
@@ -20,9 +21,11 @@
     #ifdef OLED_FLIP
         #define OLED_GRAM_START 0 // Should be 0x00 when we have full width
         #define OLED_GRAM_END   95
+        #define OLED_SEGMENT_MAP 0xA1
     #else
         #define OLED_GRAM_START 0x20 // Should be 0x00 when we have full width
         #define OLED_GRAM_END   0x7F
+        #define OLED_SEGMENT_MAP 0xA0
     #endif
 
 #endif

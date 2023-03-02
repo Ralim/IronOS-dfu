@@ -17,29 +17,25 @@ uint8_t oled_init_array[] = {
 #else
     0x80, 0xC0, /*Set COM Scan direction*/
 #endif
-    0x80, 0xD3, /*Set vertical Display offset*/
-    0x80, 0x00, /*0 Offset*/
-    0x80, 0x40, /*Set Display start line to 0*/
-#ifdef OLED_FLIP
-    0x80, 0xA1, /*Set Segment remap to backwards*/
-#else
-    0x80, 0xA0, /*Set Segment remap to normal*/
-#endif
-    0x80, 0x8D, /*Charge Pump*/
-    0x80, 0x14, /*Charge Pump settings*/
-    0x80, 0xDA, /*Set VCOM Pins hardware config*/
-    0x80, 0x81, /*Brightness*/
-    0x80, 0x80, /*FF == brightest, 0 == dimmest*/
-    0x80, 0xD9, /*Set pre-charge period*/
-    0x80, 0xF1, /*Pre charge period*/
-    0x80, 0xDB, /*Adjust VCOMH regulator ouput*/
-    0x80, 0x30, /*VCOM level*/
-    0x80, 0xA4, /*Enable the display GDDR*/
-    0x80, 0XA6, /*Normal display*/
-    0x80, 0x20, /*Memory Mode*/
-    0x80, 0x00, /*Wrap memory*/
-    0x80, 0xAF, /*Display on*/
+    0x80, 0xD2,             /*Set vertical Display offset*/
+    0x80, 0x00,             /*0 Offset*/
+    0x80, 0x40,             /*Set Display start line to 0*/
+    0x80, OLED_SEGMENT_MAP, /*Set Segment remap to backwards*/
+    0x80, 0x8D,             /*Charge Pump*/
+    0x80, 0x14,             /*Charge Pump settings*/
+    0x80, 0xDA,             /*Set VCOM Pins hardware config*/
     0x80, OLED_VCOM_LAYOUT, /*Combination 2 for 16 high; 0x12 for 32 high*/
+    0x80, 0x81,             /*Brightness*/
+    0x80, 0x7F,             /*FF == brightest, 0 == dimmest*/
+    0x80, 0xD9,             /*Set pre-charge period*/
+    0x80, 0x22,             /*Pre charge period*/
+    0x80, 0xDB,             /*Adjust VCOMH regulator ouput*/
+    0x80, 0x30,             /*VCOM level*/
+    0x80, 0xA4,             /*Enable the display GDDR*/
+    0x80, 0XA6,             /*Normal display*/
+    0x80, 0x20,             /*Memory Mode*/
+    0x80, 0x00,             /*Wrap memory*/
+    0x80, 0xAF,             /*Display on*/
 
 };
 
