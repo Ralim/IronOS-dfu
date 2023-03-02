@@ -101,7 +101,6 @@ void oled_init(void) {
   }
   // init should be done now :)
 }
-uint8_t displayOffset = 32;
 uint8_t displayBuffer[(OLED_HEIGHT / 8) * OLED_WIDTH];
 uint8_t OLEDOnOffState = 0; // Used to lock out so we dont send it too often
 
@@ -137,7 +136,7 @@ void oled_Refresh() {
 void Set_ShowPos(uint8_t x, uint8_t y) {
   uint8_t pos_param[8] = {0x80, 0xB0, 0x80, 0x21, 0x80, 0x00, 0x80, 0x7F};
   // page 0, start add = x(below) through to 0x7F (aka 127)
-  pos_param[5] = x + displayOffset; /*Display offset ==0 for Lefty, == 32 for righty*/
+  pos_param[5] = x + OLED_GRAM_START; /*Display offset ==0 for Lefty, == 32 for righty*/
   pos_param[1] += y;
   i2c_write_bulk(DEVICEADDR_OLED, 8, pos_param);
 }
