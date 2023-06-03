@@ -27,3 +27,8 @@ make -j build_type=runtime model=S60
 rm -rf build/*.o build/*.d
 
 
+make -j build_type=bootloader model=TS101
+rm -rf build/*.o build/*.d
+make -j build_type=runtime model=TS101
+rm -rf build/*.o build/*.d
+
