@@ -39,6 +39,9 @@ int main(void) {
    * boot into DFU if the user app has been erased. */
 
   // Setup vector table to use out offset whatever it is
+  volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
+  *_csb_vtor                   = 0;
+
 #ifdef ENABLE_WATCHDOG
   // Enable the watchdog
   enable_iwdg();
@@ -53,8 +56,7 @@ int main(void) {
 #endif
 
     // Set vector table base address.
-    volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
-    *_csb_vtor                   = APP_ADDRESS & 0xFFFF;
+    *_csb_vtor = APP_ADDRESS & 0xFFFF;
     // Initialise master stack pointer.
     __asm__ volatile("msr msp, %0" ::"g"(*(volatile uint32_t *)APP_ADDRESS));
     // Jump to application.
@@ -93,6 +95,11 @@ int main(void) {
       __asm__("nop");
     }
   }
+#ifdef GPIO_DP_PULLUP_PORT
+  rcc_gpio_enable(GPIO_DP_PULLUP_PORT);
+  gpio_set_output(GPIO_DP_PULLUP_PORT, GPIO_DP_PULLUP_PIN);
+  gpio_set(GPIO_DP_PULLUP_PORT, GPIO_DP_PULLUP_PIN);
+#endif
   get_dev_unique_id(serial_no);
   usb_init();
   display_show_version();

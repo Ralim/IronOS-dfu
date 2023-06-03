@@ -36,6 +36,14 @@
 #define FLASH_SIZE_KB                 128
 #define FLASH_BOOTLDR_SIZE_KB         16
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
+#elif MODEL_S60
+#define GPIO_DFU_BOOT_PORT            GPIOB
+#define GPIO_DFU_BOOT_PIN             0
+#define GPIO_DP_PULLUP_PORT            GPIOA
+#define GPIO_DP_PULLUP_PIN             8
+#define FLASH_SIZE_KB                 128
+#define FLASH_BOOTLDR_SIZE_KB         17
+#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 111
 
 #elif MODEL_TS80 || MODEL_TS80P
 #define GPIO_DFU_BOOT_PORT            GPIOB
