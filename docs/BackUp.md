@@ -19,7 +19,7 @@ The Iron will show a IronOS logo and then show the text "DFU" with its version n
 ```
 For TS80,TS80P,TS100
 sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4000
-OR for MHP30
+OR for MHP30,TS101
 sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x8000
 
 ```
