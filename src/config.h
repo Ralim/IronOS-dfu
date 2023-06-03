@@ -91,7 +91,7 @@
 #define FLASH_SIZE_KB                 128
 #define FLASH_BOOTLDR_SIZE_KB         32
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 96
-#define SCL_Pin                       10
+#define SCL_Pin                       0
 #define SCL_GPIO_Port                 GPIOB
 #define SDA_Pin                       1
 #define SDA_GPIO_Port                 GPIOB
