@@ -1,6 +1,5 @@
 !# bin/sh
 
-make clean
 make -j build_type=bootloader model=TS100
 rm -rf build/*.o build/*.d
 make -j build_type=runtime model=TS100
@@ -20,3 +19,14 @@ make -j build_type=bootloader model=MHP30
 rm -rf build/*.o build/*.d
 make -j build_type=runtime model=MHP30
 rm -rf build/*.o build/*.d
+
+make -j build_type=bootloader model=S60
+rm -rf build/*.o build/*.d
+make -j build_type=runtime model=S60
+rm -rf build/*.o build/*.d
+
+make -j build_type=bootloader model=TS101
+rm -rf build/*.o build/*.d
+make -j build_type=runtime model=TS101
+rm -rf build/*.o build/*.d
+
