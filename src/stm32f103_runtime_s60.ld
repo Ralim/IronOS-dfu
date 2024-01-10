@@ -21,7 +21,7 @@
 MEMORY
 {
 	rom (rx) : ORIGIN = 0x08004400, LENGTH = 8K
-	ram (rwx) : ORIGIN = 0x20000000, LENGTH = 8k
+	ram (rwx) : ORIGIN = 0x20000000, LENGTH = 20k
 }
 
 /* Enforce emmition of the vector table. */
