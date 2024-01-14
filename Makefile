@@ -9,22 +9,19 @@ ifeq ($(build_type), runtime)
 		SRC_LD = src/stm32f103_runtime_s60.ld
 	else
 # For MHP30 override the runtime to offset to 32k
-		ifeq ($(model),"MHP30")
+		ifeq ($(model), MHP30)
 			VECTOR_TABLE_OFFSET := 0x8000
-			SRC_LD = stm32f103_32k_runtime.ld
+			SRC_LD = src/stm32f103_32k_runtime.ld
 		else
-
 			VECTOR_TABLE_OFFSET := 0x4000
 			SRC_LD = src/stm32f103_runtime.ld
 		endif
 	endif
-BIN = runtime
-
+	BIN = runtime
 else 
 	VECTOR_TABLE_OFFSET := 0x0000
 	SRC_LD = src/stm32f103.ld
-BIN = bootloader
-
+	BIN = bootloader
 endif
 
 
