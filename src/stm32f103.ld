@@ -17,11 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+__APP_BASE_ADDRESS__ = 0x08000000 + __BOOTLDR_SIZE__;
+
 /* Define memory regions. */
 MEMORY
 {
-	rom (rx) : ORIGIN = 0x08000000, LENGTH = 8K
-	ram (rwx) : ORIGIN = 0x20000000, LENGTH = 8k
+	rom (rx)  : ORIGIN = __APP_BASE_ADDRESS__, LENGTH = 8k
+	ram (rwx) : ORIGIN = 0x20000000, LENGTH = 20k
 }
 
 /* Enforce emmition of the vector table. */

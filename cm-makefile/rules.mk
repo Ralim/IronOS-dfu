@@ -78,7 +78,7 @@ $(BUILD_DIR)/$(BIN).dfu: $(BUILD_DIR)/$(BIN).hex
 .PHONY: clean
 clean:
 	rm -f $(OUTPUTS)
-	rm -f $(BUILD_DIR)/$(BIN).map $(BUILD_DIR)/*.o
+	rm -f $(BUILD_DIR)/$(BIN).map $(BUILD_DIR)/*.o $(BUILD_DIR)/*.d
 
 .PHONY: distclean
 distclean: $(DEPS_CLEAN) clean
