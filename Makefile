@@ -4,18 +4,23 @@ build_type ?= runtime
 model ?= unknown
 
 ifeq ($(build_type), runtime)
-	ifeq ($(model), S60)
-		VECTOR_TABLE_OFFSET := 0x4400
-		SRC_LD = src/stm32f103_runtime_s60.ld
+	ifeq ($(model), S60P)
+		VECTOR_TABLE_OFFSET := 0x5000
+		SRC_LD = src/stm32f103_runtime_s60p.ld
 	else
-# For MHP30 override the runtime to offset to 32k
-		ifeq ($(model),"MHP30")
-			VECTOR_TABLE_OFFSET := 0x8000
-			SRC_LD = stm32f103_32k_runtime.ld
+		ifeq ($(model), S60)
+			VECTOR_TABLE_OFFSET := 0x4400
+			SRC_LD = src/stm32f103_runtime_s60.ld
 		else
+		# For MHP30 override the runtime to offset to 32k
+			ifeq ($(model),"MHP30")
+				VECTOR_TABLE_OFFSET := 0x8000
+				SRC_LD = stm32f103_32k_runtime.ld
+			else
 
-			VECTOR_TABLE_OFFSET := 0x4000
-			SRC_LD = src/stm32f103_runtime.ld
+				VECTOR_TABLE_OFFSET := 0x4000
+				SRC_LD = src/stm32f103_runtime.ld
+			endif
 		endif
 	endif
 BIN = runtime
