@@ -16,17 +16,25 @@ The Iron will show a IronOS logo and then show the text "DFU" with its version n
 
 ## Step 2: Use dfu-util to read out your current bootloader
 
-```
-For TS80,TS80P,TS100
-sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4000
-OR for MHP30
-sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x8000
-
-```
-
 Run this command with the iron connected via USB, and it will create a file called backup.bin in the current folder. this will be a copy of your bootloader for you to keep should you wish to return.
 Due to this being copright Miniware, the bootloader files will _NOT_ be hosted in this repo.
 However, we will publish known checksums of the backups so you can check if yours is a known one or not.
+
+### TS80,TS80P,TS100
+
+`sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4000`
+
+### S60
+
+`sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4400`
+
+### S60P
+
+`sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x5000`
+
+### MHP30
+
+`sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x8000`
 
 If it works, our output should look like this:
 
@@ -54,14 +62,13 @@ If you have lost your backup, and you need one; if you contact @ralim really nic
 
 Known recorded MD5 checksums:
 
-| Device | DFU Version 	| MD5                              |
-|:-------|:------------:|----------------------------------|
-| TS100  | 3.42         | CD1038179B3FDA32E75D6F300D153CB3 |
-| TS100  | 3.43         | F67879424D73345E4BDDCA69A4F9C75C |
-| TS100  | 3.45        	| 17FFF8A9D561B226D1DDC2D19BA2198E |
-| TS80P  | 3.50        	| 1805EC83F64C74DD89F87A1B57B7E631 |
-| TS80   | 3.45         | FADAE45B4249D4F156C30B7D4B0A853E |
-
+| Device | DFU Version | MD5                              |
+| :----- | :---------: | -------------------------------- |
+| TS100  |    3.42     | CD1038179B3FDA32E75D6F300D153CB3 |
+| TS100  |    3.43     | F67879424D73345E4BDDCA69A4F9C75C |
+| TS100  |    3.45     | 17FFF8A9D561B226D1DDC2D19BA2198E |
+| TS80P  |    3.50     | 1805EC83F64C74DD89F87A1B57B7E631 |
+| TS80   |    3.45     | FADAE45B4249D4F156C30B7D4B0A853E |
 
 In the mean time, you can validate if your backup looks valid by loading it into [hexed.it](https://hexed.it/).
 
