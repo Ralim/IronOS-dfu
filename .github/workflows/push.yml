@@ -9,7 +9,7 @@ jobs:
       image: alpine:3.15
     strategy:
       matrix:
-        model: ["TS100", "TS80", "TS80P", "MHP30"]
+        model: ["TS100", "TS80", "TS80P", "MHP30", "S60P", "S60"]
       fail-fast: true
     steps:
       - name: Install dependencies (apk)
@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies (py)
         run: pip3 install IntelHex
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: true
 
@@ -38,7 +38,7 @@ jobs:
         run: cp build/*.hex build/*.dfu /tmp/${{ matrix.model }}
 
       - name: Archive artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.model }}
           path: |

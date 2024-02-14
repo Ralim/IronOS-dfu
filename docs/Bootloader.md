@@ -4,8 +4,16 @@ This software can be used to replace the bootloader built into your device from 
 
 This DFU loader replaces the often troubled usb-disk method with the well known dfu-util. This is the same method used on the Pinecil, and lets all your devices enjoy more stable updating.
 
+## Notice
 
-**Please note: There has been a report that TS100 units shipping with DFU 3.48 may have the lock bits set. If you have this DFU version its reccomended to have a cheap st-link or other SWD programmer in case recovery is needed. #9**
+There has been a report that TS100 units shipping with DFU 3.48 may have the lock bits set. If you have this DFU version its reccomended to have a cheap st-link or other SWD programmer in case recovery is needed.
+It has also been noted that TS101 units, some MHP30 units and some newer TS80P units may also have the lock bits set.
+On **all** Sequre parts the lock bits are set, so a programmer is required.
+On these devices, flashing the runtime will work fine, so you can backup your bootloader. However if you use the runtime to flash the main bootloader it will not work and your device will loose its bootloader.
+To work around this, the best action is to use a cheap SWD programmer to connect to the device and remove the lock bits. You can then flash your old bootloader or this new one at will.
+
+On Miniware devices, the newer ones have the SWD pins wired up to D+/D-.
+On Sequre devices the pads are under the OLED but are clearly labeled (V=3.3V,C=SWCLK,D=SWDIO,G=GND).
 
 ## Flashing this bootloader
 
