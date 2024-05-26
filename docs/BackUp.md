@@ -32,6 +32,10 @@ However, we will publish known checksums of the backups so you can check if your
 
 `sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x5000`
 
+### S99
+
+`sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4C00`
+
 ### MHP30
 
 `sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x8000`

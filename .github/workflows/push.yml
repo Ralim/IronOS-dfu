@@ -9,7 +9,7 @@ jobs:
       image: alpine:3.15
     strategy:
       matrix:
-        model: ["TS100", "TS80", "TS80P", "MHP30", "S60P", "S60"]
+        model: ["TS100", "TS80", "TS80P", "MHP30", "S60P", "S60", "S99"]
       fail-fast: true
     steps:
       - name: Install dependencies (apk)

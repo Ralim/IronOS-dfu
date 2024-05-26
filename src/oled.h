@@ -5,7 +5,7 @@
 
 #define DEVICEADDR_OLED (0x3c << 1)
 
-#if MODEL_S60 || MODEL_S60P
+#if MODEL_S60 || MODEL_S60P || MODEL_S99
 #define OLED_AREA_X      16
 #define OLED_AREA_Y      8
 #define OLED_WIDTH       128
