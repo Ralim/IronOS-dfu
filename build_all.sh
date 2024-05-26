@@ -1,4 +1,6 @@
-!# bin/sh
+#! bin/sh
+
+set -eux
 
 make clean
 make -j build_type=bootloader model=TS100

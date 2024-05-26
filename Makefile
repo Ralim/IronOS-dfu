@@ -22,9 +22,9 @@ ifeq ($(build_type), runtime)
 	
 
 	# For MHP30 override the runtime to offset to 32k
-	ifeq ($(model),"MHP30")
+	ifeq ($(model),MHP30)
 		VECTOR_TABLE_OFFSET := 0x8000
-		SRC_LD = stm32f103_32k_runtime.ld
+		SRC_LD = src/stm32f103_32k_runtime.ld
 	endif
 	ifeq ($(model),$(filter $(model), TS100 TS80 TS80P ))
 		VECTOR_TABLE_OFFSET := 0x4000
