@@ -74,6 +74,7 @@ Known recorded MD5 checksums:
 | TS80P  |    3.50     | 1805EC83F64C74DD89F87A1B57B7E631 |
 | TS80   |    3.45     | FADAE45B4249D4F156C30B7D4B0A853E |
 | S60P   |   V14.00    | 631C8823D84D3F53ED80266ACE37139E |
+| S99    |   V12.00    | ca373fe47f4d3f736479e671c481fd6e |
 
 In the mean time, you can validate if your backup looks valid by loading it into [hexed.it](https://hexed.it/).
 
