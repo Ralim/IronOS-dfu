@@ -29,6 +29,6 @@ void display_show_version(void) {
 void display_splash(void) {
   // Print the splash screen directly to the OLED
   oled_clearScreen();
-  oled_DrawArea(0, 0, 96, 16, logo_buffer);
+  oled_DrawArea(OLED_AREA_X, OLED_AREA_Y, 96, 16, logo_buffer);
   oled_Refresh();
 }

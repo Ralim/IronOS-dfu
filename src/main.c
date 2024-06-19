@@ -27,7 +27,10 @@
 #include "watchdog.h"
 
 // Payload/app comes inmediately after Bootloader
-#define APP_ADDRESS (FLASH_BASE_ADDR + (FLASH_BOOTLDR_SIZE_KB)*1024)
+#define APP_ADDRESS (FLASH_BASE_ADDR + (FLASH_BOOTLDR_SIZE_KB) * 1024)
+#ifndef VECTOR_TABLE_OFFSET
+#error MUST set VTOR
+#endif
 
 #ifdef ENABLE_PINRST_DFU_BOOT
 static inline int reset_due_to_pin() { return (RCC_CSR & RCC_CSR_PINRSTF) && !(RCC_CSR & (RCC_CSR_LPWRRSTF | RCC_CSR_WWDGRSTF | RCC_CSR_IWDGRSTF | RCC_CSR_SFTRSTF | RCC_CSR_PORRSTF)); }
@@ -38,9 +41,9 @@ int main(void) {
    * asked to reboot into DFU mode. This should make the CPU to
    * boot into DFU if the user app has been erased. */
 
-  // Setup vector table to use out offset whatever it is
+  // Setup vector table to use our offset whatever it is
   volatile uint32_t *_csb_vtor = (uint32_t *)0xE000ED08U;
-  *_csb_vtor                   = 0;
+  *_csb_vtor                   = VECTOR_TABLE_OFFSET;
 
 #ifdef ENABLE_WATCHDOG
   // Enable the watchdog

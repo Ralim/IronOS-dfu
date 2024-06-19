@@ -7,21 +7,28 @@ ifeq ($(build_type), runtime)
 	ifeq ($(model), S60P)
 		VECTOR_TABLE_OFFSET := 0x5000
 		SRC_LD = src/stm32f103_runtime_s60p.ld
-	else
-		ifeq ($(model), S60)
-			VECTOR_TABLE_OFFSET := 0x4400
-			SRC_LD = src/stm32f103_runtime_s60.ld
-		else
-		# For MHP30 override the runtime to offset to 32k
-			ifeq ($(model),"MHP30")
-				VECTOR_TABLE_OFFSET := 0x8000
-				SRC_LD = stm32f103_32k_runtime.ld
-			else
+	endif
 
-				VECTOR_TABLE_OFFSET := 0x4000
-				SRC_LD = src/stm32f103_runtime.ld
-			endif
-		endif
+	ifeq ($(model), S60)
+		VECTOR_TABLE_OFFSET := 0x4400
+		SRC_LD = src/stm32f103_runtime_s60.ld
+	endif
+
+	ifeq ($(model), S99)
+		VECTOR_TABLE_OFFSET := 0x4C00
+		SRC_LD = src/stm32f103_runtime_s99.ld
+	endif
+
+	
+
+	# For MHP30 override the runtime to offset to 32k
+	ifeq ($(model),MHP30)
+		VECTOR_TABLE_OFFSET := 0x8000
+		SRC_LD = src/stm32f103_32k_runtime.ld
+	endif
+	ifeq ($(model),$(filter $(model), TS100 TS80 TS80P ))
+		VECTOR_TABLE_OFFSET := 0x4000
+		SRC_LD = src/stm32f103_runtime.ld
 	endif
 BIN = runtime
 

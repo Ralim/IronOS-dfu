@@ -32,6 +32,10 @@ However, we will publish known checksums of the backups so you can check if your
 
 `sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x5000`
 
+### S99
+
+`sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4C00`
+
 ### MHP30
 
 `sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x8000`
@@ -70,6 +74,7 @@ Known recorded MD5 checksums:
 | TS80P  |    3.50     | 1805EC83F64C74DD89F87A1B57B7E631 |
 | TS80   |    3.45     | FADAE45B4249D4F156C30B7D4B0A853E |
 | S60P   |   V14.00    | 631C8823D84D3F53ED80266ACE37139E |
+| S99    |   V12.00    | ca373fe47f4d3f736479e671c481fd6e |
 
 In the mean time, you can validate if your backup looks valid by loading it into [hexed.it](https://hexed.it/).
 

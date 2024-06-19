@@ -5,23 +5,6 @@
 #define ENABLE_DFU_UPLOAD
 #define ENABLE_WATCHDOG 26
 
-#if VECTOR_TABLE_OFFSET != 0
-#define SHOW_HASH
-#define HASH_REGION_START     FLASH_BASE_ADDR
-#define HASH_REGION_END       (FLASH_BASE_ADDR + (1024 * FLASH_BOOTLDR_SIZE_KB))
-#define DFU_VALID_FLASH_START (FLASH_BASE_ADDR)
-#define DFU_VALID_FLASH_END   (FLASH_BASE_ADDR + (FLASH_BOOTLDR_SIZE_KB * 1024))
-#define RUNTIME_MODE
-#else
-#define BOOTLOADER_MODE
-#define DFU_VALID_FLASH_START (FLASH_BASE_ADDR + (FLASH_BOOTLDR_SIZE_KB * 1024))
-#define DFU_VALID_FLASH_END   (FLASH_BASE_ADDR + (FLASH_BOOTLDR_PAYLOAD_SIZE_KB * 1024))
-// In DFU mode, we use button to enter
-
-#define ENABLE_GPIO_DFU_BOOT
-
-#endif
-
 /* Commands sent with wBlockNum == 0 as per ST implementation. */
 #define CMD_SETADDR 0x21
 #define CMD_ERASE   0x41
@@ -36,7 +19,8 @@
 #define FLASH_SIZE_KB                 128
 #define FLASH_BOOTLDR_SIZE_KB         16
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
-#elif MODEL_S60 || MODEL_S60P
+
+#elif MODEL_S60
 #define GPIO_DFU_BOOT_PORT            GPIOB
 #define GPIO_DFU_BOOT_PIN             0
 #define GPIO_DP_PULLUP_PORT           GPIOA
@@ -44,6 +28,24 @@
 #define FLASH_SIZE_KB                 128
 #define FLASH_BOOTLDR_SIZE_KB         17
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 111
+
+#elif MODEL_S60P
+#define GPIO_DFU_BOOT_PORT            GPIOB
+#define GPIO_DFU_BOOT_PIN             0
+#define GPIO_DP_PULLUP_PORT           GPIOA
+#define GPIO_DP_PULLUP_PIN            8
+#define FLASH_SIZE_KB                 128
+#define FLASH_BOOTLDR_SIZE_KB         20
+#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 108
+
+#elif MODEL_S99
+#define GPIO_DFU_BOOT_PORT            GPIOB
+#define GPIO_DFU_BOOT_PIN             0
+#define GPIO_DP_PULLUP_PORT           GPIOA
+#define GPIO_DP_PULLUP_PIN            8
+#define FLASH_SIZE_KB                 128
+#define FLASH_BOOTLDR_SIZE_KB         19
+#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 109
 
 #elif MODEL_TS80P
 #define GPIO_DFU_BOOT_PORT            GPIOB
@@ -82,4 +84,22 @@
 #define SDA_Pin       7
 #define SDA_GPIO_Port GPIOB
 
+// Setup defines for other code so we protect writing OOB
+
+#if VECTOR_TABLE_OFFSET != 0
+#define SHOW_HASH
+#define HASH_REGION_START     FLASH_BASE_ADDR
+#define HASH_REGION_END       (FLASH_BASE_ADDR + (1024 * FLASH_BOOTLDR_SIZE_KB))
+#define DFU_VALID_FLASH_START (FLASH_BASE_ADDR)
+#define DFU_VALID_FLASH_END   (FLASH_BASE_ADDR + (FLASH_BOOTLDR_SIZE_KB * 1024))
+#define RUNTIME_MODE
+#else
+#define BOOTLOADER_MODE
+#define DFU_VALID_FLASH_START (FLASH_BASE_ADDR + (FLASH_BOOTLDR_SIZE_KB * 1024))
+#define DFU_VALID_FLASH_END   (FLASH_BASE_ADDR + (FLASH_BOOTLDR_PAYLOAD_SIZE_KB * 1024))
+// In DFU mode, we use button to enter
+
+#define ENABLE_GPIO_DFU_BOOT
+
+#endif
 #endif

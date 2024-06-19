@@ -151,12 +151,11 @@ void oled_DrawArea(uint8_t x, uint8_t y, uint8_t wide, uint8_t height, const uin
   // Y is the height value (affects the bits)
   // Y is either 0 or 8, we dont do smaller bit blatting
   uint8_t lines = height / 8;
-  // We draw the 1 or two stripes seperately
-  for (uint8_t i = 0; i < (wide * lines); i++) {
-    uint8_t xp      = x + (i % wide);
-    uint8_t yoffset = i < wide ? 0 : OLED_WIDTH;
-    if (y == 8)
-      yoffset = OLED_WIDTH;
+  // We draw the 1 or two stripes separately
+  for (uint16_t i = 0; i < (wide * lines); i++) {
+    uint16_t xp = x + (i % wide);
+
+    uint16_t yoffset = ((i / wide) + (y / 8)) * OLED_WIDTH;
 
     displayBuffer[xp + yoffset] = ptr[i];
   }
@@ -166,7 +165,7 @@ void oled_DrawArea(uint8_t x, uint8_t y, uint8_t wide, uint8_t height, const uin
  Function:Clear_Screen
  Description:Clear the entire screen to off (black)
  *******************************************************************************/
-void oled_clearScreen(void) { memset(displayBuffer, 0, 96 * 2); }
+void oled_clearScreen(void) { memset(displayBuffer, 0, OLED_WIDTH * (OLED_HEIGHT / 8)); }
 
 /*
  * Draws a string onto the screen starting at the left
@@ -202,5 +201,5 @@ void OLED_DrawChar(char c, uint8_t x, const uint8_t row) {
   offset *= (FONT_WIDTH * (FONT_HEIGHT / 8));
   ptr += offset;
 
-  oled_DrawArea(x, row * 8, FONT_WIDTH, FONT_HEIGHT, (uint8_t *)ptr);
+  oled_DrawArea(OLED_AREA_X + x, OLED_AREA_Y + (row * 8), FONT_WIDTH, FONT_HEIGHT, (uint8_t *)ptr);
 }
