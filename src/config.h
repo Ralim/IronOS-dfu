@@ -55,7 +55,8 @@
 #define FLASH_SIZE_KB                 128
 #define FLASH_BOOTLDR_SIZE_KB         16
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
-
+#define OLED_INVERT_SCAN
+#define OLED_FLIP_BUFFER
 #elif MODEL_TS80
 #define GPIO_DFU_BOOT_PORT            GPIOB
 #define GPIO_DFU_BOOT_PIN             1
@@ -64,8 +65,8 @@
 #define FLASH_SIZE_KB                 128
 #define FLASH_BOOTLDR_SIZE_KB         16
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
-#define OLED_FLIP
-
+#define OLED_INVERT_SCAN
+#define OLED_FLIP_BUFFER
 #elif MODEL_MHP30
 #define GPIO_DFU_BOOT_PORT            GPIOA
 #define GPIO_DFU_BOOT_PIN             10

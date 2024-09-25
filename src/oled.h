@@ -1,5 +1,6 @@
 #ifndef OLED_H_
 #define OLED_H_
+#include "config.h"
 #include "i2c_bb.h"
 #include <stdint.h>
 
@@ -22,7 +23,7 @@
 #define OLED_HEIGHT      16
 #define OLED_VCOM_LAYOUT 0x02
 
-#ifdef OLED_FLIP
+#ifdef OLED_FLIP_BUFFER
 #define OLED_GRAM_START  0 // Aligned to top left of buffer
 #define OLED_GRAM_END    95
 #define OLED_SEGMENT_MAP 0xA1

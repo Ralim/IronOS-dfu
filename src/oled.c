@@ -12,7 +12,7 @@ uint8_t oled_init_array[] = {
     0x80, 0x52,            /*Divide ratios*/
     0x80, 0xA8,            /*Set Multiplex Ratio*/
     0x80, OLED_HEIGHT - 1, /*Vertical size - 1*/
-#ifdef OLED_FLIP
+#ifdef OLED_INVERT_SCAN
     0x80, 0xC8, /*Set COM Scan direction backwards*/
 #else
     0x80, 0xC0, /*Set COM Scan direction*/
@@ -53,7 +53,7 @@ const uint8_t REFRESH_COMMANDS[] = {
     OLED_GRAM_START, // Start
     0x80,            // Data
     OLED_GRAM_END,   // End
-#ifdef OLED_FLIP
+#ifdef OLED_INVERT_SCAN
     // Set COM output scan direction (reverse mode, COM[N-1] to COM0)
     0x80, 0xC8,
 #else
