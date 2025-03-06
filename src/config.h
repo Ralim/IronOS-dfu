@@ -20,6 +20,18 @@
 #define FLASH_BOOTLDR_SIZE_KB         16
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
 
+#elif MODEL_TS101
+#define GPIO_DFU_BOOT_PORT            GPIOA
+#define GPIO_DFU_BOOT_PIN             8
+#define OLED_RESET_Pin                7
+#define OLED_RESET_GPIO_Port          GPIOA
+#define FLASH_SIZE_KB                 128
+#define FLASH_BOOTLDR_SIZE_KB         32
+#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 96
+#define SCL_Pin                       0
+#define SCL_GPIO_Port                 GPIOB
+#define SDA_Pin                       1
+#define SDA_GPIO_Port                 GPIOB
 #elif MODEL_S60
 #define GPIO_DFU_BOOT_PORT            GPIOB
 #define GPIO_DFU_BOOT_PIN             0
@@ -79,12 +91,13 @@
 #else
 #error model not defined, use model= on makefile path
 #endif
-// Common for all models
+// Common for most models
+#ifndef SCL_Pin
 #define SCL_Pin       6
 #define SCL_GPIO_Port GPIOB
 #define SDA_Pin       7
 #define SDA_GPIO_Port GPIOB
-
+#endif
 // Setup defines for other code so we protect writing OOB
 
 #if VECTOR_TABLE_OFFSET != 0
