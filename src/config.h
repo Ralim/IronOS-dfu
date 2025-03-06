@@ -3,7 +3,7 @@
 #define FLASH_BASE_ADDR 0x08000000
 
 #define ENABLE_DFU_UPLOAD
-#define ENABLE_WATCHDOG 26
+#define ENABLE_WATCHDOG
 
 /* Commands sent with wBlockNum == 0 as per ST implementation. */
 #define CMD_SETADDR 0x21

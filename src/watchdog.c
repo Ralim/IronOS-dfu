@@ -11,7 +11,7 @@ void enable_iwdg(void) {
   while (IWDG_SR & IWDG_PVU) {}
 
   IWDG_KR = IWDG_KR_UNLOCK; // Unlock PR/RLR
-  IWDG_PR = 6;              // 256 prescaler
+  IWDG_PR = 6;              // 6 prescaler
 
   while (IWDG_SR & IWDG_RVU) {}
   IWDG_KR  = IWDG_KR_UNLOCK; // Unlock PR/RLR
