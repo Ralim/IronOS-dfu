@@ -32,3 +32,8 @@ make -j build_type=bootloader model=S99
 rm -rf build/*.o build/*.d
 make -j build_type=runtime model=S99
 rm -rf build/*.o build/*.d
+
+make -j build_type=bootloader model=TS101
+rm -rf build/*.o build/*.d
+make -j build_type=runtime model=TS101
+rm -rf build/*.o build/*.d
