@@ -106,3 +106,18 @@ sudo dfu-util -d 0483:df11 -a 0 -D backup.bin -s 0x08000000
 ```
 
 After this flash finishes, you will now have your backup restored to your iron.
+
+## A note on newer bootloaders
+
+Presumably to stop "clone" devices, Miniware has started adding this "demo-mode" lockout to their official firmware.
+The way this works is that at the very end of the first 32K of flash, they encode a signature that is based on the STM32(or clone's) CPU ID.
+For example, for a TS101 at the end of the bootloader I have `00007ff0: ffff eb35 4739 ca4b 341a bc4a 363e ffff`.
+
+This means that you cant restore a backup from someone elses device _if_ you use the Miniware firmware.
+You _can_ generate these signature bytes yourself fairly easily however, if you use a debugger to read the CPU ID from the STM32, you can generate the signature bytes yourself.
+You will need to read the CPU ID from `0x1FFFF7E8` and then do a rolling XOR with `0x1FFFF7E8` to generate the check value.
+
+This is why the reccomendation to backup your bootloader.
+Also as a trend, if your device has this signature at the end of the bootloader, you _will_ have the flash locked and require a programmer to load the main bootloader.
+
+If you do **not** plan to run Miniware firmware, this will not matter as IronOS (and other firmwares) as of present do not implement this largely pointless check.
