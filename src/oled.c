@@ -111,7 +111,6 @@ void Data_Command(uint16_t length, const uint8_t *data) {
   uint8_t tx_data[(OLED_HEIGHT / 8) * OLED_WIDTH + 1];
   // here we are inserting the data write command at the beginning
   tx_data[0] = 0x40;
-  length++;
   for (int i = 1; i <= length; i++) // Loop through the array of data
   {
     if (data == 0)
@@ -119,6 +118,7 @@ void Data_Command(uint16_t length, const uint8_t *data) {
     else
       tx_data[i] = *data++;
   }
+  length++; // To account for tx_data having the 0x40 at the start
   i2c_write_bulk(DEVICEADDR_OLED, length, tx_data);
 }
 // This causes us to write out the buffered screen data to the display

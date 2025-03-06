@@ -6,7 +6,7 @@
 
 #define DEVICEADDR_OLED (0x3c << 1)
 
-#if MODEL_S60 || MODEL_S60P || MODEL_S99
+#if MODEL_S60 || MODEL_S60P || MODEL_S99 || MODEL_TS101
 #define OLED_AREA_X      16
 #define OLED_AREA_Y      8
 #define OLED_WIDTH       128
@@ -14,7 +14,12 @@
 #define OLED_GRAM_START  0x00
 #define OLED_GRAM_END    0x7F
 #define OLED_VCOM_LAYOUT 0x12
+
+#ifdef OLED_FLIP_BUFFER
+#define OLED_SEGMENT_MAP 0xA0
+#else
 #define OLED_SEGMENT_MAP 0xA1
+#endif
 #else
 
 #define OLED_AREA_X      0

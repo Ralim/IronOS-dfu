@@ -4,19 +4,17 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     container:
-      image: alpine:3.15
+      image: alpine:3.21
     strategy:
       matrix:
-        model: ["TS100", "TS80", "TS80P", "MHP30", "S60P", "S60", "S99"]
+        model:
+          ["TS100", "TS80", "TS80P", "MHP30", "S60P", "S60", "S99", "TS101"]
       fail-fast: true
     steps:
       - name: Install dependencies (apk)
-        run: apk add --no-cache gcc-arm-none-eabi newlib-arm-none-eabi findutils make git python3 py3-pip
-
-      - name: Install dependencies (py)
-        run: pip3 install IntelHex
+        run: apk add --no-cache gcc-arm-none-eabi newlib-arm-none-eabi findutils make git python3 py3-pip  py3-intelhex
 
       - uses: actions/checkout@v4
         with:

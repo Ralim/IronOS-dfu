@@ -3,6 +3,7 @@
 #include "setup.h"
 #include <stdint.h>
 void null_handler(void);
+void ignore_handler(void);
 int  main(void);
 void __attribute__((naked)) reset_handler(void);
 
@@ -28,6 +29,8 @@ typedef struct {
 
 // A handler that does nothing, we use no interrupts
 void null_handler(void) { _full_system_reset(); }
+void ignore_handler(void) {  }
+
 
 /* Less common symbols exported by the linker script(s): */
 typedef void (*funcp_t)(void);
@@ -63,5 +66,5 @@ __attribute__((section(".vectors"))) vector_table_t vector_table = {
     .debug_monitor       = null_handler,
     .sv_call             = null_handler,
     .pend_sv             = null_handler,
-    .systick             = null_handler,
+    .systick             = ignore_handler,
 };
