@@ -32,6 +32,8 @@
 #define SCL_GPIO_Port                 GPIOB
 #define SDA_Pin                       1
 #define SDA_GPIO_Port                 GPIOB
+#define OLED_FLIP_BUFFER
+#define OLED_INVERT_SCAN
 #elif MODEL_S60
 #define GPIO_DFU_BOOT_PORT            GPIOB
 #define GPIO_DFU_BOOT_PIN             0
