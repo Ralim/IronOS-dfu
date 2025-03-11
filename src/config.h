@@ -1,5 +1,6 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
+
 #define FLASH_BASE_ADDR 0x08000000
 
 #define ENABLE_DFU_UPLOAD
@@ -12,87 +13,84 @@
 // Per device config
 
 #ifdef MODEL_TS100
-#define GPIO_DFU_BOOT_PORT            GPIOA
-#define GPIO_DFU_BOOT_PIN             9
-#define OLED_RESET_Pin                8
-#define OLED_RESET_GPIO_Port          GPIOA
-#define FLASH_SIZE_KB                 128
-#define FLASH_BOOTLDR_SIZE_KB         16
-#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
-
+  #define GPIO_DFU_BOOT_PORT            GPIOA
+  #define GPIO_DFU_BOOT_PIN             9
+  #define OLED_RESET_Pin                8
+  #define OLED_RESET_GPIO_Port          GPIOA
+  #define FLASH_SIZE_KB                 128
+  #define FLASH_BOOTLDR_SIZE_KB         16
+  #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
 #elif MODEL_TS101
-#define GPIO_DFU_BOOT_PORT            GPIOA
-#define GPIO_DFU_BOOT_PIN             8
-#define OLED_RESET_Pin                7
-#define OLED_RESET_GPIO_Port          GPIOA
-#define FLASH_SIZE_KB                 128
-#define FLASH_BOOTLDR_SIZE_KB         32
-#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 96
-#define SCL_Pin                       0
-#define SCL_GPIO_Port                 GPIOB
-#define SDA_Pin                       1
-#define SDA_GPIO_Port                 GPIOB
-#define OLED_FLIP_BUFFER
-#define OLED_INVERT_SCAN
+  #define GPIO_DFU_BOOT_PORT            GPIOA
+  #define GPIO_DFU_BOOT_PIN             8
+  #define OLED_RESET_Pin                7
+  #define OLED_RESET_GPIO_Port          GPIOA
+  #define FLASH_SIZE_KB                 128
+  #define FLASH_BOOTLDR_SIZE_KB         32
+  #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 96
+  #define SCL_Pin                       0
+  #define SCL_GPIO_Port                 GPIOB
+  #define SDA_Pin                       1
+  #define SDA_GPIO_Port                 GPIOB
+  #define OLED_FLIP_BUFFER
+  #define OLED_INVERT_SCAN
 #elif MODEL_S60
-#define GPIO_DFU_BOOT_PORT            GPIOB
-#define GPIO_DFU_BOOT_PIN             0
-#define GPIO_DP_PULLUP_PORT           GPIOA
-#define GPIO_DP_PULLUP_PIN            8
-#define FLASH_SIZE_KB                 128
-#define FLASH_BOOTLDR_SIZE_KB         17
-#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 111
-
+  #define GPIO_DFU_BOOT_PORT            GPIOB
+  #define GPIO_DFU_BOOT_PIN             0
+  #define GPIO_DP_PULLUP_PORT           GPIOA
+  #define GPIO_DP_PULLUP_PIN            8
+  #define FLASH_SIZE_KB                 128
+  #define FLASH_BOOTLDR_SIZE_KB         17
+  #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 111
 #elif MODEL_S60P
-#define GPIO_DFU_BOOT_PORT            GPIOB
-#define GPIO_DFU_BOOT_PIN             0
-#define GPIO_DP_PULLUP_PORT           GPIOA
-#define GPIO_DP_PULLUP_PIN            8
-#define FLASH_SIZE_KB                 128
-#define FLASH_BOOTLDR_SIZE_KB         20
-#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 108
-
+  #define GPIO_DFU_BOOT_PORT            GPIOB
+  #define GPIO_DFU_BOOT_PIN             0
+  #define GPIO_DP_PULLUP_PORT           GPIOA
+  #define GPIO_DP_PULLUP_PIN            8
+  #define FLASH_SIZE_KB                 128
+  #define FLASH_BOOTLDR_SIZE_KB         20
+  #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 108
 #elif MODEL_S99
-#define GPIO_DFU_BOOT_PORT            GPIOB
-#define GPIO_DFU_BOOT_PIN             0
-#define GPIO_DP_PULLUP_PORT           GPIOA
-#define GPIO_DP_PULLUP_PIN            8
-#define FLASH_SIZE_KB                 128
-#define FLASH_BOOTLDR_SIZE_KB         19
-#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 109
-
+  #define GPIO_DFU_BOOT_PORT            GPIOB
+  #define GPIO_DFU_BOOT_PIN             0
+  #define GPIO_DP_PULLUP_PORT           GPIOA
+  #define GPIO_DP_PULLUP_PIN            8
+  #define FLASH_SIZE_KB                 128
+  #define FLASH_BOOTLDR_SIZE_KB         19
+  #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 109
 #elif MODEL_TS80P
-#define GPIO_DFU_BOOT_PORT            GPIOB
-#define GPIO_DFU_BOOT_PIN             1
-#define OLED_RESET_Pin                15
-#define OLED_RESET_GPIO_Port          GPIOA
-#define FLASH_SIZE_KB                 128
-#define FLASH_BOOTLDR_SIZE_KB         16
-#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
-#define OLED_INVERT_SCAN
-#define OLED_FLIP_BUFFER
+  #define GPIO_DFU_BOOT_PORT            GPIOB
+  #define GPIO_DFU_BOOT_PIN             1
+  #define OLED_RESET_Pin                15
+  #define OLED_RESET_GPIO_Port          GPIOA
+  #define FLASH_SIZE_KB                 128
+  #define FLASH_BOOTLDR_SIZE_KB         16
+  #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
+  #define OLED_INVERT_SCAN
+  #define OLED_FLIP_BUFFER
 #elif MODEL_TS80
-#define GPIO_DFU_BOOT_PORT            GPIOB
-#define GPIO_DFU_BOOT_PIN             1
-#define OLED_RESET_Pin                15
-#define OLED_RESET_GPIO_Port          GPIOA
-#define FLASH_SIZE_KB                 128
-#define FLASH_BOOTLDR_SIZE_KB         16
-#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
-#define OLED_INVERT_SCAN
-#define OLED_FLIP_BUFFER
+  #define GPIO_DFU_BOOT_PORT            GPIOB
+  #define GPIO_DFU_BOOT_PIN             1
+  #define OLED_RESET_Pin                15
+  #define OLED_RESET_GPIO_Port          GPIOA
+  #define FLASH_SIZE_KB                 128
+  #define FLASH_BOOTLDR_SIZE_KB         16
+  #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 112
+  #define OLED_INVERT_SCAN
+  #define OLED_FLIP_BUFFER
 #elif MODEL_MHP30
-#define GPIO_DFU_BOOT_PORT            GPIOA
-#define GPIO_DFU_BOOT_PIN             10
-#define OLED_RESET_Pin                4
-#define OLED_RESET_GPIO_Port          GPIOB
-#define FLASH_SIZE_KB                 128
-#define FLASH_BOOTLDR_SIZE_KB         32
-#define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 96
+  #define GPIO_DFU_BOOT_PORT            GPIOA
+  #define GPIO_DFU_BOOT_PIN             10
+  #define OLED_RESET_Pin                4
+  #define OLED_RESET_GPIO_Port          GPIOB
+  #define FLASH_SIZE_KB                 128
+  #define FLASH_BOOTLDR_SIZE_KB         32
+  #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 96
 
 #else
-#error model not defined, use model= on makefile path
+  #error model not defined, use model= on makefile path
 #endif
+
 // Common for most models
 #ifndef SCL_Pin
 #define SCL_Pin       6
@@ -100,8 +98,8 @@
 #define SDA_Pin       7
 #define SDA_GPIO_Port GPIOB
 #endif
-// Setup defines for other code so we protect writing OOB
 
+// Setup defines for other code so we protect writing OOB
 #if VECTOR_TABLE_OFFSET != 0
 #define SHOW_HASH
 #define HASH_REGION_START     FLASH_BASE_ADDR
