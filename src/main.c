@@ -75,6 +75,7 @@ int main(void) {
    * (need at least 2.5us to trigger usb disconnect)
    */
 
+  rcc_gpio_enable(GPIOB);
   rcc_gpio_enable(GPIOA);
   gpio_set_output(GPIOA, 12);
   gpio_clear(GPIOA, 12);
