@@ -25,7 +25,15 @@ char serial_no[25];
 #define STR_HELPER(x) #x
 #define STR(x)        STR_HELPER(x)
 const char *const _usb_strings[5] = {"RalimTek <3 libopencm3",       // iManufacturer
-                                     "DFU bootloader [" VERSION "]", // iProduct
+#ifdef BOOTLOADER_MODE
+  "DFU bootloader [" VERSION "]", // iProduct
+#else
+  #ifdef RUNTIME_MODE
+    "DFU runtime [" VERSION "]", // iProduct
+  #else
+    #error "RUNTIME MODE OR BOOTLOADER MODE MUST BE DEFINED"
+  #endif
+#endif
                                      serial_no,                      // iSerialNumber
 // Interface desc string
 /* This string is used by ST Microelectronics' DfuSe utility. */
