@@ -92,7 +92,7 @@ int main(void) {
 #ifdef ENABLE_WATCHDOG
     iwdg_reset();
 #endif
-    for (unsigned int yyyy = 0; yyyy < 1000; yyyy++) {
+    for (unsigned int yyyy = 0; yyyy < 100; yyyy++) {
       __asm__("nop");
       __asm__("nop");
       __asm__("nop");
