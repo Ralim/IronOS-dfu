@@ -100,7 +100,6 @@ void oled_init(void) {
   // init should be done now :)
 }
 uint8_t displayBuffer[(OLED_HEIGHT / 8) * OLED_WIDTH];
-uint8_t OLEDOnOffState = 0; // Used to lock out so we dont send it too often
 
 /*
  Description: write a command to the Oled display
