@@ -24,6 +24,10 @@ However, we will publish known checksums of the backups so you can check if your
 
 `sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4000`
 
+### TS101
+
+`sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x60A0`
+
 ### S60
 
 `sudo dfu-util -d 28e9:0189 -U backup.bin  -s 0x08000000:0x4400`
@@ -71,7 +75,7 @@ Known recorded MD5 checksums:
 | TS100  |    3.42     | CD1038179B3FDA32E75D6F300D153CB3 |
 | TS100  |    3.43     | F67879424D73345E4BDDCA69A4F9C75C |
 | TS100  |    3.45     | 17FFF8A9D561B226D1DDC2D19BA2198E |
-| TS101  |    1.06     | 9DFE2D04E93FB22D1219A7BD251D526C |
+| TS101  |    1.06     | 4745AD475764AFD4FF8961BDE4412FB4 |
 | TS80P  |    3.50     | 1805EC83F64C74DD89F87A1B57B7E631 |
 | TS80   |    3.45     | FADAE45B4249D4F156C30B7D4B0A853E |
 | S60P   |   V14.00    | 631C8823D84D3F53ED80266ACE37139E |
