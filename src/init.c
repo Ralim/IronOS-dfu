@@ -5,7 +5,7 @@
 void null_handler(void);
 void ignore_handler(void);
 int  main(void);
-void __attribute__((naked)) reset_handler(void);
+void reset_handler(void);
 
 extern unsigned _data_loadaddr, _data, _edata, _ebss, _stack;
 
@@ -35,7 +35,10 @@ void ignore_handler(void) {  }
 /* Less common symbols exported by the linker script(s): */
 typedef void (*funcp_t)(void);
 
-void __attribute__((naked)) reset_handler(void) {
+// Not naked: with LTO, main() is inlined here and may spill to the stack. A naked
+// function gets no prologue to reserve that space (GCC only supports basic asm in
+// naked functions), so spills land above the initial SP and outside of RAM.
+void reset_handler(void) {
   volatile unsigned *src, *dest;
 
   for (src = &_data_loadaddr, dest = &_data; dest < &_edata; src++, dest++) {
