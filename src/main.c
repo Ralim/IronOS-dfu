@@ -65,6 +65,11 @@ int main(void) {
     // Jump to application.
     (*(void (**)())(APP_ADDRESS + 4))();
   }
+  // This firmware is polled and its vector table only holds the core exceptions.
+  // A preceding bootloader may jump here with peripheral IRQs (e.g. USB) still
+  // enabled, which would vector into code, so mask them all.
+  __asm__ volatile("cpsid i" ::: "memory");
+
   rcc_clock_setup_in_hsi_out_48mhz();
 
   /* Disable USB peripheral as it overrides GPIO settings */
@@ -81,6 +86,9 @@ int main(void) {
   //  We are using the I2C init and write to cover for the delay we need for the
   //  USB de-enumeration
 
+#ifdef RELEASE_JTAG_PINS
+  release_jtag_pins();
+#endif
   i2c_init();
   oled_init();
 #ifdef ENABLE_WATCHDOG

@@ -684,6 +684,16 @@ void rcc_clock_setup_in_hsi_out_48mhz(void) {
 
   /* Select HSI as SYSCLK source. */
   rcc_set_sysclk_source(RCC_CFGR_SW_SYSCLKSEL_HSICLK);
+  while (rcc_system_clock_source() != RCC_CFGR_SWS_SYSCLKSEL_HSICLK) {
+  }
+
+  /*
+   * A preceding bootloader may have left the PLL running. PLLMUL and PLLSRC
+   * can only be written while the PLL is off (RM0008 8.3.2), so stop it first.
+   */
+  rcc_osc_off(RCC_PLL);
+  while (RCC_CR & RCC_CR_PLLRDY) {
+  }
 
   /*
    * Set prescalers for AHB, ADC, APB1, APB2.
@@ -718,6 +728,8 @@ void rcc_clock_setup_in_hsi_out_48mhz(void) {
 
   /* Select PLL as SYSCLK source. */
   rcc_set_sysclk_source(RCC_CFGR_SW_SYSCLKSEL_PLLCLK);
+  while (rcc_system_clock_source() != RCC_CFGR_SWS_SYSCLKSEL_PLLCLK) {
+  }
 
   /* Set the peripheral clock frequencies used */
   rcc_ahb_frequency = 48000000;

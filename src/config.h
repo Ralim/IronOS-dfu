@@ -89,6 +89,13 @@
 #define FLASH_SIZE_KB                 128
 #define FLASH_BOOTLDR_SIZE_KB         32
 #define FLASH_BOOTLDR_PAYLOAD_SIZE_KB 96
+// OLED is on the second I2C bus (IronOS MHP30 Pins.h SCL2/SDA2, selected by OLED_I2CBB2)
+#define SCL_Pin                       3
+#define SCL_GPIO_Port                 GPIOB
+#define SDA_Pin                       15
+#define SDA_GPIO_Port                 GPIOA
+// PB3, PB4 and PA15 are JTDO, NJTRST and JTDI out of reset
+#define RELEASE_JTAG_PINS
 
 #else
 #error model not defined, use model= on makefile path
