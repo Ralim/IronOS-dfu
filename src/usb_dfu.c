@@ -47,7 +47,7 @@ const char *const _usb_strings[5] = {"RalimTek <3 libopencm3",       // iManufac
 #endif
 };
 
-static const char hcharset[16] = "0123456789abcdef";
+static const char hcharset[16] __attribute__((nonstring)) = "0123456789abcdef";
 void              get_dev_unique_id(char *s) {
   volatile uint8_t *unique_id = (volatile uint8_t *)0x1FFFF7E8;
   /* Fetch serial number from chip's unique ID */
