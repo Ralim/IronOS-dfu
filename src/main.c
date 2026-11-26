@@ -61,10 +61,17 @@ int main(void) {
     // Set vector table base address.
     *_csb_vtor = APP_ADDRESS & 0xFFFF;
     // Initialise master stack pointer.
-    __asm__ volatile("msr msp, %0" ::"g"(*(volatile uint32_t *)APP_ADDRESS));
+    // MSR only takes a register source (ARMv7-M ARM A7.7.83), so force "r";
+    // a looser constraint lets GCC emit an invalid memory operand.
+    __asm__ volatile("msr msp, %0" ::"r"(*(volatile uint32_t *)APP_ADDRESS));
     // Jump to application.
     (*(void (**)())(APP_ADDRESS + 4))();
   }
+  // This firmware is polled and its vector table only holds the core exceptions.
+  // A preceding bootloader may jump here with peripheral IRQs (e.g. USB) still
+  // enabled, which would vector into code, so mask them all.
+  __asm__ volatile("cpsid i" ::: "memory");
+
   rcc_clock_setup_in_hsi_out_48mhz();
 
   /* Disable USB peripheral as it overrides GPIO settings */
@@ -81,6 +88,9 @@ int main(void) {
   //  We are using the I2C init and write to cover for the delay we need for the
   //  USB de-enumeration
 
+#ifdef RELEASE_JTAG_PINS
+  release_jtag_pins();
+#endif
   i2c_init();
   oled_init();
 #ifdef ENABLE_WATCHDOG

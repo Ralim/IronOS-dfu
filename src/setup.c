@@ -29,5 +29,12 @@ void gpio_set_mode(uint32_t gpiodev, uint16_t gpion, uint8_t mode) {
   if (gpion < 8)
     GPIO_CRL(gpiodev) = (GPIO_CRL(gpiodev) & ~(0xf << ((gpion) << 2))) | (mode << ((gpion) << 2));
   else
-    GPIO_CRH(gpiodev) = (GPIO_CRL(gpiodev) & ~(0xf << ((gpion - 8) << 2))) | (mode << ((gpion - 8) << 2));
+    GPIO_CRH(gpiodev) = (GPIO_CRH(gpiodev) & ~(0xf << ((gpion - 8) << 2))) | (mode << ((gpion - 8) << 2));
+}
+
+// Disables JTAG-DP (keeping SW-DP) so PA15, PB3 and PB4 can be used as GPIO.
+// SWJ_CFG is write-only and reads back undefined, so it is masked out rather than preserved.
+void release_jtag_pins(void) {
+  RCC_APB2ENR |= (1 << RCC_APB2ENR_AFIO_BIT);
+  AFIO_MAPR = (AFIO_MAPR & ~AFIO_MAPR_SWJ_CFG_MASK) | AFIO_MAPR_SWJ_CFG_SWD_ONLY;
 }

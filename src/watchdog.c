@@ -7,7 +7,7 @@ void enable_iwdg(void) {
   }
   // First start LSI oscillator
   RCC_CSR |= LSI_ON;
-  while (RCC_CSR & LSI_RDY) {}
+  while (!(RCC_CSR & LSI_RDY)) {}
   while (IWDG_SR & IWDG_PVU) {}
 
   IWDG_KR = IWDG_KR_UNLOCK; // Unlock PR/RLR
