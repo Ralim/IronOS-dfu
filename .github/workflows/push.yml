@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies (apk)
         run: apk add --no-cache gcc-arm-none-eabi newlib-arm-none-eabi findutils make git python3 py3-pip  py3-intelhex
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: true
 
@@ -36,7 +36,7 @@ jobs:
         run: cp build/*.hex build/*.dfu /tmp/${{ matrix.model }}
 
       - name: Archive artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.model }}
           path: |
