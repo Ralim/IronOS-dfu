@@ -61,7 +61,9 @@ int main(void) {
     // Set vector table base address.
     *_csb_vtor = APP_ADDRESS & 0xFFFF;
     // Initialise master stack pointer.
-    __asm__ volatile("msr msp, %0" ::"g"(*(volatile uint32_t *)APP_ADDRESS));
+    // MSR only takes a register source (ARMv7-M ARM A7.7.83), so force "r";
+    // a looser constraint lets GCC emit an invalid memory operand.
+    __asm__ volatile("msr msp, %0" ::"r"(*(volatile uint32_t *)APP_ADDRESS));
     // Jump to application.
     (*(void (**)())(APP_ADDRESS + 4))();
   }

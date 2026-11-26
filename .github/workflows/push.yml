@@ -20,6 +20,11 @@ jobs:
         with:
           submodules: true
 
+      # The container user differs from the checkout owner; without this git
+      # refuses to run and the Makefile's GIT_VERSION ends up empty.
+      - name: mark workspace safe for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
       - name: prep
         run: mkdir -p /tmp/${{ matrix.model }}
 
